@@ -1,0 +1,32 @@
+{
+  "stakingPool": {
+    "title": "Staking",
+    "switchLabel": "Staked",
+    "searchPlaceholder": "Search assets or address",
+    "banner": {
+      "buttonText": "Add liquidity",
+      "title": "Provide liquidity and earn fees",
+      "text": "Explore new opportunities with providing liquidity. Choose the perfect pool for you and start earning on trading fees today!"
+    }
+  },
+  "farmers": {
+    "title": "Farmers Pool",
+    "switchLabel": "My positions",
+    "searchPlaceholder": "Search assets or address",
+    "banner": {
+      "buttonText": "Learn more",
+      "title": "Trade with up to 3x leverage",
+      "text": "Explore new possibilities with farmix. Choose the perfect pool for you and start trading with leverage in decentralized liquidity pools today!"
+    }
+  },
+  "navbar": {
+    "paths": {
+      "staking": "Staking",
+      "farmers": "Farmers"
+    }
+  },
+  "description": {
+    "part1": "To get started, edit <1>src/App.js</1> and save to reload.",
+    "part2": "Switch language between english and german using buttons above."
+  }
+}

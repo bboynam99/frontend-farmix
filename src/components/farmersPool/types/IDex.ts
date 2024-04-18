@@ -1,0 +1,1 @@
+export type IDex = "ston.fi" | "dedust.io" 

@@ -1,0 +1,54 @@
+import { Box, Flex, Stack, Text } from "@chakra-ui/react"
+
+import FarmersPoolTableItem from "./farmersPoolTableItem"
+import { IFarmersPoolItem } from "./types/IFarmersPoolItem"
+
+interface FarmersPoolTableProps {
+  list: IFarmersPoolItem[]
+  onSearch?: (value: string) => void
+}
+
+const FarmersPoolTable = ({ list }: FarmersPoolTableProps) => {
+  return (
+    <Box>
+      <Stack direction={["column", "row"]} spacing={2} px={6} py={4}>
+        <Flex flexBasis={"33.3%"}>
+          <Text>Pool</Text>
+        </Flex>
+        <Stack
+          spacing={1}
+          direction={"row"}
+          alignItems={"center"}
+          flexBasis={"16.3%"}
+        >
+          <Text>DEX</Text>
+        </Stack>
+        <Stack
+          spacing={1}
+          direction={"row"}
+          alignItems={"center"}
+          flexBasis={"16.3%"}
+          justify={"flex-end"}
+        >
+          <Text>APR</Text>
+        </Stack>
+        <Flex flexBasis={"16.3%"} justify={"flex-end"}>
+          <Text>Volume 24h</Text>
+        </Flex>
+        <Flex flexBasis={"16.3%"} justify={"flex-end"}>
+          <Text>PNL</Text>
+        </Flex>
+      </Stack>
+      <Flex flexDir={"column"}>
+        {list.map((item) => (
+          <FarmersPoolTableItem
+            key={item.id}
+            item={item}
+          ></FarmersPoolTableItem>
+        ))}
+      </Flex>
+    </Box>
+  )
+}
+
+export default FarmersPoolTable

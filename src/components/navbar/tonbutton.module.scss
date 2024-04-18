@@ -1,0 +1,24 @@
+.button {
+    button {
+        box-shadow: none;
+        border: 1px solid #D8D8E1;
+
+        &[data-tc-connect-button] {
+            background-color: #446FDD;
+            border: none;
+            transform: none;
+            padding-left: 24px;
+            padding-right: 24px;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+
+    ;
+
+    svg {
+        display: none;
+    }
+}

@@ -1,0 +1,32 @@
+{
+  "stakingPool": {
+    "title": "Пул ликвидности",
+    "switchLabel": "Моя ликвидность",
+    "searchPlaceholder": "Искать активы и адреса",
+    "banner": {
+      "buttonText": "Добавить ликвидность",
+      "title": "Предоставьте ликвидность и зарабатывайте на комиссии",
+      "text": "Откройте новые возможности предоставляя ликвидность. Выберите для себя лучший пул и начните зарабатывать сейчас!"
+    }
+  },
+  "farmers": {
+    "title": "Пул фармеров",
+    "switchLabel": "Мои позиции",
+    "searchPlaceholder": "Искать активы и адреса",
+    "banner": {
+      "buttonText": "Узнать больше",
+      "title": "Трейдинг с маржинальностью до 3х",
+      "text": "Исследуйте новые возможности с Farmix. Выберите идеальный пул для вас и начните торговать с плечом в децентрализованных ликвидных пулах уже сегодня!"
+    }
+  },
+  "navbar": {
+    "paths": {
+      "staking": "Стейкинг",
+      "farmers": "Фармеры"
+    }
+  },
+  "description": {
+    "part1": "To get started, edit <1>src/App.js</1> and save to reload.",
+    "part2": "Switch language between english and german using buttons above."
+  }
+}
