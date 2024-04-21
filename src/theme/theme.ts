@@ -1,6 +1,8 @@
-import { extendTheme, StyleFunctionProps } from "@chakra-ui/react"
+import { CloseButton, extendTheme, StyleFunctionProps } from "@chakra-ui/react"
 
+import { alertTheme } from "./alert"
 import { buttonTheme } from "./button"
+import { closeButtonTheme } from "./closeButton"
 import { darkTheme, lightTheme } from "./colors"
 import { inputTheme } from "./input"
 import { modalTheme } from "./modal"
@@ -40,6 +42,8 @@ const theme = extendTheme({
     Input: inputTheme,
     Select: selectTheme,
     Modal: modalTheme,
+    Alert: alertTheme,
+    CloseButton: closeButtonTheme,
     NumberInput: {
       field: {
         borderRadius: "46px",

@@ -1,25 +1,16 @@
-import errorAnimation from "@assets/lottie/error.json"
-import loadingAnimation from "@assets/lottie/loading.json"
-import successAnimation from "@assets/lottie/success.json"
 import refreshIconDark from "@assets/svg/refresh_32.svg"
 import refreshIconLight from "@assets/svg/refresh_32_light.svg"
 import settingsIconDark from "@assets/svg/settings_32.svg"
 import settingsIconLight from "@assets/svg/settings_32_light.svg"
 import walletIcon from "@assets/svg/wallet_16.svg"
+
 import {
   Badge,
   Box,
   Button,
   Container,
-  Divider,
   Flex,
   Image,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
   NumberInput,
   NumberInputField,
   Spacer,
@@ -27,48 +18,32 @@ import {
   Text,
   useColorModeValue
 } from "@chakra-ui/react"
-import Lottie from "lottie-react"
+import { observer } from "mobx-react-lite"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
+import AlertBox from "@/components/alertBox/alertBox"
 import BackButton from "@/components/backButton/backButton"
 import BgBox from "@/components/bgBox/bgBox"
 import { IStakeItem } from "@/components/stakingPool/types/IStakeItem"
-import ViewOnTonviewer from "@/components/viewOnTonviewer/viewOnTonviewer"
 import Warning from "@/components/warning/warning"
+import { useStore } from "@/hooks/useStore"
 import { pool } from "@/mocks/mockData"
+import ConfirmModal from "./modals/confirm"
+import ConfirmWalletModal from "./modals/confirmWallet"
+import ResultModal from "./modals/resultModal"
+import SettingsModal from "./modals/settings"
 
-const Stake = () => {
+const Stake = observer(() => {
   const params = useParams()
-
   const [item, setItem] = useState<IStakeItem | undefined>(undefined)
-  const [amount, setAmount] = useState("")
-  const [confirmModal, setConfirmModal] = useState(false)
-  const [confirmWalletModal, setConfirmWalletModal] = useState(false)
-  const [confirmedInWallet, setConfirmedInWallet] = useState(false)
-  const [result, setResult] = useState<"success" | "error" | undefined>()
-  const [resultModal, setResultModal] = useState(false)
+  const [settingsModal, setSettingsModal] = useState(false)
+  const [resultAlert, setResultAlert] = useState(false)
 
-  const handleAmount = (amount: string) => {
-    setAmount(amount)
-  }
+  const { stakingStore: store } = useStore()
 
   const settingsIcon = useColorModeValue(settingsIconDark, settingsIconLight)
   const refreshIcon = useColorModeValue(refreshIconDark, refreshIconLight)
-
-  const handleConfirm = () => {
-    setConfirmedInWallet(false)
-    setConfirmWalletModal(true)
-    setConfirmModal(false)
-    setTimeout(() => {
-      setConfirmedInWallet(true)
-      setConfirmWalletModal(false)
-    }, 3000)
-    setTimeout(() => {
-      setResult("error")
-      setResultModal(true)
-    }, 5000)
-  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -104,8 +79,16 @@ const Stake = () => {
                 Staking
               </Text>
               <Flex>
-                <Image src={settingsIcon} w={8} h={8} mr={5} />
-                <Image src={refreshIcon} w={8} h={8} />
+                <Box
+                  mr={5}
+                  onClick={() => setSettingsModal(true)}
+                  cursor={"pointer"}
+                >
+                  <Image src={settingsIcon} w={8} h={8} />
+                </Box>
+                <Box cursor={"pointer"} onClick={() => {}}>
+                  <Image src={refreshIcon} w={8} h={8} />
+                </Box>
               </Flex>
             </Flex>
             <BgBox px={4} py={5} radius="12px">
@@ -137,12 +120,15 @@ const Stake = () => {
                     minW={"100px"}
                     flex={1}
                     border={"none"}
+                    _selection={"none"}
                     type="number"
-                    value={amount}
+                    value={store.settings.stakeAmount ?? ""}
                     _focus={{ border: "none" }}
                     _focusVisible={{ border: "none" }}
                     _placeholder={{ opacity: 0.5 }}
-                    onChange={(e) => handleAmount(e.target.value)}
+                    onChange={(e) =>
+                      store.setStakeAmount(Number(e.target.value))
+                    }
                   ></NumberInputField>
                 </NumberInput>
               </Flex>
@@ -153,11 +139,11 @@ const Stake = () => {
               </Flex>
             </BgBox>
             <Button
-              isDisabled={amount === ""}
+              isDisabled={store.settings.stakeAmount === 0 || undefined}
               mt={5}
               mb={5}
               variant={"big"}
-              onClick={() => setConfirmModal(true)}
+              onClick={() => store.setStakeState("confirm")}
             >
               Enter the amount
             </Button>
@@ -167,168 +153,43 @@ const Stake = () => {
               buttonText="View more"
             />
           </Flex>
-          <Modal
-            isOpen={confirmModal}
-            onClose={() => setConfirmModal(false)}
-            isCentered={true}
-          >
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>
-                <Text fontSize={24} fontWeight={700}>
-                  You staking
-                </Text>
-                <ModalCloseButton onClick={() => setConfirmModal(false)} />
-              </ModalHeader>
-              <ModalBody>
-                <Box pb={4}>
-                  <Box pb={2} mb={4}>
-                    <Flex align={"center"} justify={"space-between"} mb={3}>
-                      <Text color={"text.secondary"}>Assets</Text>
-                      <Text color={"text.secondary"}>$244</Text>
-                    </Flex>
-                    <Flex align={"center"}>
-                      <Flex align={"center"}>
-                        <Image mr={2} src={item.tokenIcon} w={8} h={8} />
-                        <Text fontSize={20} fontWeight={600}>
-                          {item.token}
-                        </Text>
-                      </Flex>
-                      <Spacer />
-                      <Text fontSize={20} fontWeight={600}>
-                        {amount}
-                      </Text>
-                    </Flex>
-                  </Box>
-                  <Divider orientation="horizontal"></Divider>
-                  <Box py={2} my={4}>
-                    <Flex align={"center"} justify={"space-between"}>
-                      <Text color={"text.secondary"}>APR 24</Text>
-                      <Text color={"text.secondary"}>109%</Text>
-                    </Flex>
-                    <Flex mt={2} align={"center"} justify={"space-between"}>
-                      <Text color={"text.secondary"}>Minimum recieved</Text>
-                      <Text color={"text.secondary"}>0.000084</Text>
-                    </Flex>
-                    <Flex mt={2} align={"center"} justify={"space-between"}>
-                      <Text color={"text.secondary"}>Est. share of pool</Text>
-                      <Text color={"text.secondary"}>{"+<0.01%"}</Text>
-                    </Flex>
-                  </Box>
-                  <Warning
-                    message="Staking cannot be unstaked when all funds are used in farming"
-                    buttonLink="#"
-                    buttonText="View more"
-                  />
-                  <Button mt={4} variant={"big"} onClick={handleConfirm}>
-                    Confirm staking
-                  </Button>
-                </Box>
-              </ModalBody>
-            </ModalContent>
-          </Modal>
-          <Modal
-            isOpen={confirmWalletModal}
-            onClose={() => setConfirmWalletModal(false)}
-            size={"sm"}
-            isCentered
-          >
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>
-                <ModalCloseButton onClick={() => setConfirmModal(false)} />
-              </ModalHeader>
-              <ModalBody
-                alignItems={"center"}
-                display={"flex"}
-                flexDirection={"column"}
-                justifyContent={"center"}
-              >
-                <Flex
-                  w={"138px"}
-                  h={"138px"}
-                  justify={"center"}
-                  align={"center"}
-                  my={3}
-                >
-                  <Lottie animationData={loadingAnimation} loop={true} />
-                </Flex>
-                <Text
-                  fontSize={24}
-                  fontWeight={700}
-                  lineHeight={"30px"}
-                  textAlign={"center"}
-                  maxW={"60%"}
-                >
-                  {confirmedInWallet
-                    ? "One more second"
-                    : "Confirm transaction in your wallet"}
-                </Text>
-                <Text textAlign={"center"} maxW={"80%"} pb={"84px"} mt={3}>
-                  Confirm liquidity provision 78.1166 GRAM / 0.999999921 TON to
-                  GRAM/TON pool
-                </Text>
-              </ModalBody>
-            </ModalContent>
-          </Modal>
-          <Modal
-            isOpen={resultModal}
-            onClose={() => setResultModal(false)}
-            size={"sm"}
-            isCentered
-          >
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>
-                <ModalCloseButton onClick={() => setResultModal(false)} />
-              </ModalHeader>
-              <ModalBody
-                alignItems={"center"}
-                display={"flex"}
-                flexDirection={"column"}
-                justifyContent={"center"}
-              >
-                <Flex
-                  w={"218px"}
-                  h={"218px"}
-                  justify={"center"}
-                  align={"center"}
-                  my={3}
-                >
-                  <Lottie
-                    animationData={
-                      result === "success" ? successAnimation : errorAnimation
-                    }
-                    loop={true}
-                  />
-                </Flex>
-                <Text
-                  fontSize={24}
-                  fontWeight={700}
-                  lineHeight={"30px"}
-                  textAlign={"center"}
-                >
-                  {result === "success"
-                    ? "Your transaction was successful"
-                    : "Failed"}
-                </Text>
-                <Text textAlign={"center"} maxW={"80%"} pb={3} mt={3}>
-                  {result === "success"
-                    ? "Liquidity provision 78.1166 GRAM / 0.999999921 TON to GRAM/TON pool"
-                    : "Has something happened"}
-                </Text>
-                <ViewOnTonviewer link="https://tonviewer.com"></ViewOnTonviewer>
-                <Button
-                  mt={4}
-                  mb={4}
-                  variant={"big"}
-                  onClick={() => setResultModal(false)}
-                >
-                  Got it
-                </Button>
-              </ModalBody>
-            </ModalContent>
-          </Modal>
+          <AlertBox
+            title="Well done!"
+            description="You successfully read this important message."
+            show={resultAlert}
+            status="success"
+            onClose={() => setResultAlert(false)}
+          />
+          <ConfirmModal
+            isOpen={store.stakeState === "confirm"}
+            onClose={() => store.clearStake()}
+            onConfirm={() => store.confirmStake(true)}
+            item={item}
+            amount={store.settings.stakeAmount || 0}
+          />
+          <ConfirmWalletModal
+            isOpen={
+              store.stakeState === "confirmInWallet" ||
+              store.stakeState === "pending"
+            }
+            item={item}
+            amount={store.settings.stakeAmount || 0}
+            confirmed={store.stakeState === "pending"}
+            onClose={() => store.clearStake()}
+          />
+          <ResultModal
+            item={item}
+            amount={store.settings.stakeAmount || 0}
+            result={store.stakeState as "success" | "error"}
+            isOpen={
+              store.stakeState === "success" || store.stakeState === "error"
+            }
+            onClose={() => store.clearStake()}
+          />
+          <SettingsModal
+            isOpen={settingsModal}
+            onClose={() => setSettingsModal(false)}
+          />
         </>
       ) : (
         <Flex h={"250px"} align={"center"} justify={"center"}>
@@ -337,6 +198,6 @@ const Stake = () => {
       )}
     </Container>
   )
-}
+})
 
 export default Stake

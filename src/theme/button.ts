@@ -8,6 +8,15 @@ export const buttonTheme = {
       pointerEvents: "none"
     }
   },
+  sizes: {
+    md: {
+      minWidth: "144px",
+    },
+    sm: {
+      height: "36px",
+      minWidth: "0"
+    }
+  },
   variants: {
     big: {
       bg: "#446FDD",
@@ -19,12 +28,10 @@ export const buttonTheme = {
       fontSize: "20px"
     },
     outline: {
-      minWidth: "144px",
       bg: "transparent"
     },
     solid: {
       bg: "#446FDD",
-      minWidth: "144px",
       color: "#FFFFFF",
       _hover: {
         bg: "#446FDD",
