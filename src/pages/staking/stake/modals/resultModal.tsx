@@ -14,7 +14,7 @@ import {
 import Lottie from "lottie-react"
 
 import { IStakeItem } from "@/components/stakingPool/types/IStakeItem"
-import ViewOnTonviewer from "@/components/viewOnTonviewer/viewOnTonviewer"
+import ViewOnTonviewer from "@/components/ui/viewOnTonviewer/viewOnTonviewer"
 
 interface ResultModalProps {
   result: "success" | "error" | undefined

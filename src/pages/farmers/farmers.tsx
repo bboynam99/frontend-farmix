@@ -23,7 +23,7 @@ import FarmersPoolTable from "@/components/farmersPool/farmersPoolTable"
 import { IDex } from "@/components/farmersPool/types/IDex"
 import SelectUi from "@/components/ui/select/selectUi"
 import useDebounce from "@/hooks/useDebounce"
-import { dexOptions, selectOptions } from "@/mocks/selectOptions"
+import { dexOptions } from "@/mocks/selectOptions"
 
 import { farmersPools } from "../../mocks/mockData"
 
@@ -37,6 +37,8 @@ const Farmers = () => {
     label: string
     value: string
   }>({ label: "", value: "" })
+  console.log(sorting);
+  
 
   const [searchValue, setSearchValue] = useState<string>("")
   const [filteredList, setFilteredList] = useState(farmersPools)
@@ -62,9 +64,6 @@ const Farmers = () => {
   return (
     <Container
       maxW={"container.xl"}
-      w={"100%"}
-      display={"flex"}
-      flexDirection={"column"}
     >
       <Box mt={16}>
         <Banner

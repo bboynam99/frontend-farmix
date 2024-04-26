@@ -1,4 +1,7 @@
-import { CloseButton, extendTheme, StyleFunctionProps } from "@chakra-ui/react"
+import {
+  extendTheme,
+  StyleFunctionProps
+} from "@chakra-ui/react"
 
 import { alertTheme } from "./alert"
 import { buttonTheme } from "./button"
@@ -17,7 +20,9 @@ const theme = extendTheme({
       },
       text: {
         accent: "#44A3DD",
-        secondary: { default: "#646464", _dark: "#BDC8D9" }
+        secondary: { default: "#646464", _dark: "#BDC8D9" },
+        tetriary: { default: "#626278", _dark: "#83869B" },
+        link: "#4744DD"
       },
       borderColor: {
         default: "#EFEFF5",
@@ -44,6 +49,14 @@ const theme = extendTheme({
     Modal: modalTheme,
     Alert: alertTheme,
     CloseButton: closeButtonTheme,
+    Container: {
+      baseStyle: {
+        flex: 1,
+        width: "100%",
+        display: "flex",
+        flexDirection: "column"
+      }
+    },
     NumberInput: {
       field: {
         borderRadius: "46px",
@@ -58,13 +71,15 @@ const theme = extendTheme({
       }
     },
     Badge: {
+      baseStyle: {
+        padding: "4px 8px",
+        borderRadius: "8px",
+        fontSize: "12px",
+        lineHeight: "14px"
+      },
       variants: {
         solid: {
-          bg: "#44A3DD",
-          padding: "4px 8px",
-          borderRadius: "8px",
-          fontSize: "12px",
-          lineHeight: "14px"
+          bg: "#44A3DD"
         }
       }
     },

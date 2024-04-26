@@ -16,7 +16,7 @@ import {
 import React from "react"
 
 import { IStakeItem } from "@/components/stakingPool/types/IStakeItem"
-import Warning from "@/components/warning/warning"
+import Warning from "@/components/ui/warning/warning"
 
 interface ConfirmModalProps {
   isOpen: boolean

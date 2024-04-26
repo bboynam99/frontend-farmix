@@ -3,7 +3,6 @@ import refreshIconLight from "@assets/svg/refresh_32_light.svg"
 import settingsIconDark from "@assets/svg/settings_32.svg"
 import settingsIconLight from "@assets/svg/settings_32_light.svg"
 import walletIcon from "@assets/svg/wallet_16.svg"
-
 import {
   Badge,
   Box,
@@ -22,13 +21,14 @@ import { observer } from "mobx-react-lite"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
-import AlertBox from "@/components/alertBox/alertBox"
-import BackButton from "@/components/backButton/backButton"
-import BgBox from "@/components/bgBox/bgBox"
 import { IStakeItem } from "@/components/stakingPool/types/IStakeItem"
-import Warning from "@/components/warning/warning"
+import AlertBox from "@/components/ui/alertBox/alertBox"
+import BackButton from "@/components/ui/backButton/backButton"
+import BgBox from "@/components/ui/bgBox/bgBox"
+import Warning from "@/components/ui/warning/warning"
 import { useStore } from "@/hooks/useStore"
 import { pool } from "@/mocks/mockData"
+
 import ConfirmModal from "./modals/confirm"
 import ConfirmWalletModal from "./modals/confirmWallet"
 import ResultModal from "./modals/resultModal"
@@ -36,14 +36,13 @@ import SettingsModal from "./modals/settings"
 
 const Stake = observer(() => {
   const params = useParams()
+  const settingsIcon = useColorModeValue(settingsIconDark, settingsIconLight)
+  const refreshIcon = useColorModeValue(refreshIconDark, refreshIconLight)
+  const { stakingStore: store } = useStore()
+
   const [item, setItem] = useState<IStakeItem | undefined>(undefined)
   const [settingsModal, setSettingsModal] = useState(false)
   const [resultAlert, setResultAlert] = useState(false)
-
-  const { stakingStore: store } = useStore()
-
-  const settingsIcon = useColorModeValue(settingsIconDark, settingsIconLight)
-  const refreshIcon = useColorModeValue(refreshIconDark, refreshIconLight)
 
   useEffect(() => {
     setTimeout(() => {
@@ -51,13 +50,7 @@ const Stake = observer(() => {
     }, 1000)
   }, [])
   return (
-    <Container
-      maxW={"container.xl"}
-      w={"100%"}
-      display={"flex"}
-      flexDirection={"column"}
-      flex={1}
-    >
+    <Container maxW={"container.xl"}>
       <Box mt={"34px"} mb={"48px"}>
         <BackButton></BackButton>
       </Box>
@@ -69,12 +62,7 @@ const Stake = observer(() => {
             alignSelf={"center"}
             direction={"column"}
           >
-            <Flex
-              alignItems={"center"}
-              justify={"space-between"}
-              mb={8}
-              mt={"56px"}
-            >
+            <Flex alignItems={"center"} justify={"space-between"} mb={8}>
               <Text fontSize={36} fontWeight={700}>
                 Staking
               </Text>
@@ -120,7 +108,6 @@ const Stake = observer(() => {
                     minW={"100px"}
                     flex={1}
                     border={"none"}
-                    _selection={"none"}
                     type="number"
                     value={store.settings.stakeAmount ?? ""}
                     _focus={{ border: "none" }}
@@ -139,7 +126,10 @@ const Stake = observer(() => {
               </Flex>
             </BgBox>
             <Button
-              isDisabled={store.settings.stakeAmount === 0 || undefined}
+              isDisabled={
+                store.settings.stakeAmount === 0 ||
+                store.settings.stakeAmount === undefined
+              }
               mt={5}
               mb={5}
               variant={"big"}

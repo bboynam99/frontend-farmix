@@ -6,6 +6,9 @@ import {
   Divider,
   Flex,
   Image,
+  Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -23,9 +26,9 @@ import {
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
-import BackButton from "@/components/backButton/backButton"
 import { IStakeItem } from "@/components/stakingPool/types/IStakeItem"
-import ViewOnTonviewer from "@/components/viewOnTonviewer/viewOnTonviewer"
+import BackButton from "@/components/ui/backButton/backButton"
+import ViewOnTonviewer from "@/components/ui/viewOnTonviewer/viewOnTonviewer"
 import { pool } from "@/mocks/mockData"
 
 const Pair = () => {
@@ -55,15 +58,11 @@ const Pair = () => {
   return (
     <Container
       maxW={"container.xl"}
-      w={"100%"}
-      display={"flex"}
-      flexDirection={"column"}
-      flex={1}
     >
       {item ? (
         <>
           <Box mt={"34px"} mb={"48px"}>
-            <BackButton></BackButton>
+            <BackButton title="Back to pools"></BackButton>
           </Box>
 
           <Flex alignItems={"flex-start"}>
@@ -174,7 +173,7 @@ const Pair = () => {
                 <Button onClick={handleUnstake} mr={4} variant={"outline"}>
                   Unstake
                 </Button>
-                <Button>Add</Button>
+                <Button onClick={stake}>Add</Button>
               </Flex>
             </Stat>
             <Stat borderWidth={"1px"} borderRadius={"12px"} px={6} py={5}>
@@ -228,7 +227,7 @@ const Pair = () => {
                   <Button
                     mt={4}
                     variant={"big"}
-                    onClick={() => setClaimModal(true)}
+                    onClick={() => setClaimModal(false)}
                     h={"42px"}
                     fontSize={14}
                   >
@@ -248,7 +247,7 @@ const Pair = () => {
             <ModalContent>
               <ModalHeader>
                 <Text fontSize={24} fontWeight={700}>
-                  Claim rewards
+                  Unstake
                 </Text>
                 <ModalCloseButton onClick={() => setUnstakeModal(false)} />
               </ModalHeader>
@@ -259,14 +258,29 @@ const Pair = () => {
                       <Flex align={"center"}>
                         <Image mr={3} src={item.tokenIcon} w={8} h={8} />
                         <Box>
-                          <Text fontWeight={500}>2553 {item.token}</Text>
                           <Text color={"text.secondary"} fontSize={12}>
-                            Rewards for claim
+                            You staked
                           </Text>
+                          <Text fontWeight={500}>2553 {item.token}</Text>
                         </Box>
                       </Flex>
                     </Flex>
                   </Box>
+                  <InputGroup>
+                    <Input placeholder={"Enter amount"}></Input>
+                    <InputRightElement w={"auto"}>
+                      <Text
+                        color={"text.link"}
+                        fontSize={"12px"}
+                        cursor={"pointer"}
+                        px={5}
+                        fontWeight={500}
+                      >
+                        MAX
+                      </Text>
+                    </InputRightElement>
+                  </InputGroup>
+                  <Divider mt={5} />
                   <Flex mt={4} justify={"space-between"}>
                     <Text color={"text.secondary"} fontSize={12} mt={1}>
                       Blockchain fee
@@ -276,9 +290,7 @@ const Pair = () => {
                   <Button
                     mt={4}
                     variant={"big"}
-                    onClick={() => setUnstakeModal(true)}
-                    h={"42px"}
-                    fontSize={14}
+                    onClick={() => setUnstakeModal(false)}
                   >
                     Confirm unstake
                   </Button>

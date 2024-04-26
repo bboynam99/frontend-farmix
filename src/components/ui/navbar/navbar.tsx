@@ -16,17 +16,16 @@ import {
   useColorMode
 } from "@chakra-ui/react"
 import {
-  CHAIN,
   Locales,
-  SendTransactionRequest,
   THEME,
   TonConnectButton,
   useIsConnectionRestored,
   useTonConnectUI,
   useTonWallet
 } from "@tonconnect/ui-react"
+import { useState } from "react"
 import { useTranslation } from "react-i18next"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 import styles from "./tonbutton.module.scss"
 export interface NavbarLink {
@@ -40,9 +39,15 @@ interface NavbarProps {
 
 const Navbar = ({ links }: NavbarProps) => {
   const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const [tabIndex, setTabIndex] = useState(
+    pathname?.includes("/farmers") ? 1 : 0 || 0
+  )
+
   const { toggleColorMode, colorMode } = useColorMode()
   const { t, i18n } = useTranslation("navbar")
   const currentLang = i18n.language
+
   const onLanguageChange = (lang: string) => {
     setOptions({ language: lang as Locales })
   }
@@ -53,21 +58,25 @@ const Navbar = ({ links }: NavbarProps) => {
   }
   const [tonConnectUI, setOptions] = useTonConnectUI()
   const wallet = useTonWallet()
-  const sendTransactionHandler = (address: string, amount: string) => {
-    const transaction: SendTransactionRequest = {
-      messages: [
-        {
-          address: address,
-          amount: amount
-        }
-      ],
-      validUntil: Math.floor(new Date().getTime() / 1000) + 360,
-      from: wallet?.account.address,
-      network: CHAIN.TESTNET
-    }
+  console.log(wallet, tonConnectUI.account?.walletStateInit);
+  const info = fetch(`https://tonapi.io/v2/accounts/${wallet?.account.address}`)
+  info.then((res) => console.log(res.json()))
+  
+  // const sendTransactionHandler = (address: string, amount: string) => {
+  //   const transaction: SendTransactionRequest = {
+  //     messages: [
+  //       {
+  //         address: address,
+  //         amount: amount
+  //       }
+  //     ],
+  //     validUntil: Math.floor(new Date().getTime() / 1000) + 360,
+  //     from: wallet?.account.address,
+  //     network: CHAIN.TESTNET
+  //   }
 
-    tonConnectUI.sendTransaction(transaction)
-  }
+  //   tonConnectUI.sendTransaction(transaction)
+  // }
 
   setOptions({
     uiPreferences: {
@@ -82,12 +91,17 @@ const Navbar = ({ links }: NavbarProps) => {
     <Flex w={"100%"} bg={"secondaryBg"} p={3} justifyContent={"space-between"}>
       <Container
         maxW={"container.xl"}
-        w={"100%"}
-        display={"flex"}
+        flexDirection={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Tabs defaultIndex={0} isManual position="relative" variant="unstyled">
+        <Tabs
+          onChange={(index) => setTabIndex(index)}
+          index={tabIndex}
+          isManual
+          position="relative"
+          variant="unstyled"
+        >
           <TabList>
             {links.map((link) => (
               <Tab
@@ -96,7 +110,6 @@ const Navbar = ({ links }: NavbarProps) => {
                 _first={{ ml: 0 }}
                 ml={10}
                 my={1}
-                
                 onClick={() => navigate(link.path)}
               >
                 {t("paths." + link.name)}

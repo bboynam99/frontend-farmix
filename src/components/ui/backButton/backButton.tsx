@@ -2,7 +2,7 @@ import ChevronLeft from "@assets/svg/chevron-left_24.svg"
 import ChevronLeftLight from "@assets/svg/chevron-left_24_light.svg"
 import { Box, Flex, Image, Text, useColorModeValue } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
-const BackButton = () => {
+const BackButton = ({ title }: { title?: string }) => {
   const img = useColorModeValue(ChevronLeft, ChevronLeftLight)
 
   const navigate = useNavigate()
@@ -11,7 +11,7 @@ const BackButton = () => {
       <Flex alignItems={"center"} cursor={"pointer"}>
         <Image src={img} width={6} height={6} />
         <Text ml={1} letterSpacing={"0.2px"}>
-          Back
+          {title ? title : "Back"}
         </Text>
       </Flex>
     </Box>

@@ -28,8 +28,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <TonConnectUIProvider
+        manifestUrl={`https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json`}
+        // manifestUrl={`${window.location.origin}/tonconnect-manifest.json`}
         actionsConfiguration={{}}
-        manifestUrl="https://ratingers.pythonanywhere.com/ratelance/tonconnect-manifest.json"
       >
         <ChakraProvider theme={theme}>
           <Routes>

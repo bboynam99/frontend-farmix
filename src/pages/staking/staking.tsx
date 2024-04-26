@@ -33,6 +33,7 @@ const StakingPool = () => {
   const [searchValue, setSearchValue] = useState<string>("")
   const [filteredList, setFilteredList] = useState(pool)
   const debouncedValue = useDebounce<string>(searchValue, 500)
+  console.log(selectedValue)
 
   useEffect(() => {
     debouncedValue.length
@@ -43,14 +44,9 @@ const StakingPool = () => {
         )
       : setFilteredList(pool)
   }, [debouncedValue])
-  
+
   return (
-    <Container
-      maxW={"container.xl"}
-      w={"100%"}
-      display={"flex"}
-      flexDirection={"column"}
-    >
+    <Container maxW={"container.xl"}>
       <Box mt={16}>
         <Banner
           bgImage={bannerBg}
