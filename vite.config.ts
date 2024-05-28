@@ -1,3 +1,4 @@
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { defineConfig } from "vite";
@@ -16,4 +17,16 @@ export default defineConfig({
     react(),
     i18nextLoader({ paths: ['./src/locales'] }),
   ],
+  optimizeDeps: {
+      esbuildOptions: {
+          define: {
+              global: 'globalThis'
+          },
+          plugins: [
+              NodeGlobalsPolyfillPlugin({
+                  buffer: true
+              })
+          ]
+      }
+  }
 });

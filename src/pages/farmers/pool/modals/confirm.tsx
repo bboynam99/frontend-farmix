@@ -16,11 +16,11 @@ import {
 } from "@chakra-ui/react"
 import React from "react"
 
-import { IFarmersPoolItem } from "@/components/farmersPool/types/IFarmersPoolItem"
+import { IFarmersPoolRow } from "@/components/farmersPool/types/IFarmersPoolRow"
 
 interface ConfirmModalProps {
   isOpen: boolean
-  item: IFarmersPoolItem
+  item: IFarmersPoolRow
   amount: number
   amount2: number
   leverage: number

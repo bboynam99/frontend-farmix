@@ -7,7 +7,7 @@ import PositionsTableItem from "./positionsTableItem"
 const PositionsTable = () => {
   return (
     <Box>
-      <Stack direction={["column", "row"]} spacing={2} px={6} py={4}>
+      <Stack direction={["column", "row"]} spacing={2} px={6} py={4} hideBelow={"md"}>
         <Flex flexBasis={"12.5%"}>
           <Text>Symbol</Text>
         </Flex>
@@ -26,10 +26,11 @@ const PositionsTable = () => {
         <Flex flexBasis={"12.5%"}>
           <Text>PNL</Text>
         </Flex>
+        <Flex flexBasis={"15%"} flexShrink={0}></Flex>
       </Stack>
       <Flex flexDir={"column"}>
         {farmersPositions.map((item) => (
-          <PositionsTableItem item={item} />
+          <PositionsTableItem key={item.id} item={item} />
         ))}
       </Flex>
     </Box>

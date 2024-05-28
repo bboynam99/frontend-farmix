@@ -1,12 +1,30 @@
 {
+  "common": {
+    "backTo": "Back to",
+    "viewOn": "View on"
+  },
   "stakingPool": {
     "title": "Staking",
     "switchLabel": "Staked",
     "searchPlaceholder": "Search assets or address",
     "banner": {
-      "buttonText": "Add liquidity",
-      "title": "Provide liquidity and earn fees",
-      "text": "Explore new opportunities with providing liquidity. Choose the perfect pool for you and start earning on trading fees today!"
+      "buttonText": "Stake now",
+      "title": "Stake your assets and earn rewards",
+      "text": "Discover new possibilities with staking your assets. Select the ideal pool for you and begin earning rewards today!"
+    },
+    "table": {
+      "totalBalance": "Total balance",
+      "totalEarned": "Total earned",
+      "unstake": "Unstake",
+      "add": "Add",
+      "claimAndUnstake": "Claim and unstake",
+      "staked": "Staked",
+      "earned": "Earned",
+      "stake": "Stake",
+      "rate": "Rate",
+      "pool": "Pool",
+      "confirmUnstake": "Confirm unstake",
+      "fee": "Blockchain fee"
     }
   },
   "farmers": {
@@ -24,9 +42,5 @@
       "staking": "Staking",
       "farmers": "Farmers"
     }
-  },
-  "description": {
-    "part1": "To get started, edit <1>src/App.js</1> and save to reload.",
-    "part2": "Switch language between english and german using buttons above."
   }
 }

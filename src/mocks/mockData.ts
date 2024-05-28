@@ -1,53 +1,8 @@
-import { IFarmersPoolItem } from "@/components/farmersPool/types/IFarmersPoolItem"
+import { IFarmersPoolRow } from "@/components/farmersPool/types/IFarmersPoolRow"
 import { IHistoryItem } from "@/components/farmersPool/types/IHistoryItem"
 import { IPosition } from "@/components/farmersPool/types/IPosition"
-import { IStakeItem } from "@/components/stakingPool/types/IStakeItem"
 
-export const pool: IStakeItem[] = [
-  {
-    id: 1,
-    tokenIcon: "/src/assets/png/tokens/gram.png",
-    token: "GRAM",
-    apr: "28.5%",
-    tvl: "$1,000,000",
-    volume24: "$9,000",
-    liquidity: "$0",
-    link: "#"
-  },
-
-  {
-    id: 2,
-    tokenIcon: "/src/assets/png/tokens/ton.png",
-    token: "STON",
-    apr: "28.5%",
-    tvl: "$1,000,000",
-    volume24: "$9,000",
-    liquidity: "$0",
-    link: "#"
-  },
-  {
-    id: 3,
-    tokenIcon: "/src/assets/png/tokens/gram.png",
-    token: "TON",
-    apr: "28.5%",
-    tvl: "$1,000,000",
-    volume24: "$9,000",
-    liquidity: "$0",
-    link: "#"
-  },
-  {
-    id: 5,
-    tokenIcon: "/src/assets/png/tokens/ton.png",
-    token: "OTHER",
-    apr: "28.5%",
-    tvl: "$1,000,000",
-    volume24: "$9,000",
-    liquidity: "$0",
-    link: "#"
-  }
-]
-
-export const farmersPools: IFarmersPoolItem[] = [
+export const farmersPools: IFarmersPoolRow[] = [
   {
     id: 1,
     tokenIcon: "/src/assets/png/tokens/gram.png",
@@ -157,7 +112,7 @@ export const farmersHistoryItem: IHistoryItem[] = [
     status: "cancelled"
   },
   {
-    id: 1,
+    id: 2,
     symbol: "GRAM",
     createdAt: "2022-01-01",
     quantity: 1,
@@ -167,7 +122,7 @@ export const farmersHistoryItem: IHistoryItem[] = [
     status: "executed"
   },
   {
-    id: 1,
+    id: 3,
     symbol: "GRAM",
     createdAt: "2022-01-01",
     quantity: 1,
@@ -175,14 +130,5 @@ export const farmersHistoryItem: IHistoryItem[] = [
     price: 1,
     fee: 1,
     status: "partiallyExecuted"
-  }
-]
-
-export const staked = [
-  {
-    id: 2
-  },
-  {
-    id: 4
   }
 ]

@@ -22,7 +22,8 @@ const theme = extendTheme({
         accent: "#44A3DD",
         secondary: { default: "#646464", _dark: "#BDC8D9" },
         tetriary: { default: "#626278", _dark: "#83869B" },
-        link: "#4744DD"
+        link: "#4744DD",
+        error: "#DD4444"
       },
       borderColor: {
         default: "#EFEFF5",

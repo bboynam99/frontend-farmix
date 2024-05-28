@@ -32,7 +32,7 @@ const HistoryTable = () => {
       </Stack>
       <Flex flexDir={"column"}>
         {farmersHistoryItem.map((item) => (
-          <HistoryTableItem item={item} />
+          <HistoryTableItem key={item.id} item={item} />
         ))}
       </Flex>
     </Box>

@@ -13,12 +13,12 @@ import {
 } from "@chakra-ui/react"
 import Lottie from "lottie-react"
 
-import { IStakeItem } from "@/components/stakingPool/types/IStakeItem"
+import { IStakingPool } from "@/components/stakingPool/types/IStakingPool"
 import ViewOnTonviewer from "@/components/ui/viewOnTonviewer/viewOnTonviewer"
 
 interface ResultModalProps {
   result: "success" | "error" | undefined
-  item: IStakeItem
+  item: IStakingPool
   amount: number
   isOpen: boolean
   onClose: () => void
@@ -70,10 +70,10 @@ const ResultModal = ({
           </Text>
           <Text textAlign={"center"} maxW={"80%"} pb={3} mt={3}>
             {result === "success"
-              ? `Confirm staking ${amount} ${item.token}`
+              ? `Confirm staking ${amount} ${item.descriptor.symbol}`
               : "Has something happened"}
           </Text>
-          <ViewOnTonviewer link="https://tonviewer.com"></ViewOnTonviewer>
+          <ViewOnTonviewer addr={item.descriptor.contractAddr}></ViewOnTonviewer>
           <Button mt={4} mb={4} variant={"big"} onClick={onClose}>
             Got it
           </Button>

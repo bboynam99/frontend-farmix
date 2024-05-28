@@ -1,4 +1,7 @@
 export const inputTheme = {
+  baseStyle: {
+    maxW: "100%",
+  },
   variants: {
     outline: {
       field: {

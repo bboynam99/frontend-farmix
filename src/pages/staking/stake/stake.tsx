@@ -7,6 +7,7 @@ import {
   Badge,
   Box,
   Button,
+  Collapse,
   Container,
   Flex,
   Image,
@@ -17,17 +18,19 @@ import {
   Text,
   useColorModeValue
 } from "@chakra-ui/react"
+import { useTonConnectUI } from "@tonconnect/ui-react"
 import { observer } from "mobx-react-lite"
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 
-import { IStakeItem } from "@/components/stakingPool/types/IStakeItem"
 import AlertBox from "@/components/ui/alertBox/alertBox"
 import BackButton from "@/components/ui/backButton/backButton"
 import BgBox from "@/components/ui/bgBox/bgBox"
+import ToUsd from "@/components/ui/toUsd/toUsd"
 import Warning from "@/components/ui/warning/warning"
+import { useInput } from "@/hooks/useInput"
 import { useStore } from "@/hooks/useStore"
-import { pool } from "@/mocks/mockData"
 
 import ConfirmModal from "./modals/confirm"
 import ConfirmWalletModal from "./modals/confirmWallet"
@@ -38,40 +41,36 @@ const Stake = observer(() => {
   const params = useParams()
   const settingsIcon = useColorModeValue(settingsIconDark, settingsIconLight)
   const refreshIcon = useColorModeValue(refreshIconDark, refreshIconLight)
-  const { stakingStore: store } = useStore()
-
-  const [item, setItem] = useState<IStakeItem | undefined>(undefined)
+  const { stakingStore: store, userStore, fromNano } = useStore()
   const [settingsModal, setSettingsModal] = useState(false)
   const [resultAlert, setResultAlert] = useState(false)
+  const [tonConnectUi] = useTonConnectUI()
+  const { t } = useTranslation("stakingPool")
+
+  const amountInput = useInput(0, (e) => {
+    store.setStakeAmount(Number(e.target.value))
+  })
 
   useEffect(() => {
-    setTimeout(() => {
-      setItem(pool.find((item) => item.id === Number(params.id)))
-    }, 1000)
-  }, [])
+    if (params.id) {
+      store.fetchPool(params.id, userStore.user.walletAddress)
+    }
+  }, [userStore.user.walletAddress])
+
   return (
     <Container maxW={"container.xl"}>
-      <Box mt={"34px"} mb={"48px"}>
-        <BackButton></BackButton>
+      <Box mt={8} mb={[6, 12]}>
+        <BackButton title="Back to staking"></BackButton>
       </Box>
-      {item ? (
+      {store.currentPool ? (
         <>
-          <Flex
-            w={"100%"}
-            maxW={"464px"}
-            alignSelf={"center"}
-            direction={"column"}
-          >
+          <Flex w={"100%"} maxW={"464px"} alignSelf={"center"} direction={"column"}>
             <Flex alignItems={"center"} justify={"space-between"} mb={8}>
-              <Text fontSize={36} fontWeight={700}>
-                Staking
+              <Text fontSize={[24, 32, 36]} fontWeight={700}>
+                {t("title")}
               </Text>
               <Flex>
-                <Box
-                  mr={5}
-                  onClick={() => setSettingsModal(true)}
-                  cursor={"pointer"}
-                >
+                <Box mr={5} onClick={() => setSettingsModal(true)} cursor={"pointer"}>
                   <Image src={settingsIcon} w={8} h={8} />
                 </Box>
                 <Box cursor={"pointer"} onClick={() => {}}>
@@ -86,15 +85,17 @@ const Stake = observer(() => {
                 <Flex alignItems={"center"}>
                   <Image src={walletIcon} w={4} h={4}></Image>
                   <Text color={"text.accent"} ml={2}>
-                    348 000.745
+                    {userStore.user.balance && Number(fromNano(userStore.user.balance)).toFixed(2)}
                   </Text>
                 </Flex>
               </Flex>
               <Flex align={"center"}>
                 <Flex align={"center"}>
-                  <Image mr={2} src={item.tokenIcon} w={8} h={8} />
+                  {store.currentPool.descriptor.imgUrl && (
+                    <Image mr={2} src={store.currentPool.descriptor.imgUrl} w={8} h={8} />
+                  )}
                   <Text fontSize={24} fontWeight={700}>
-                    {item.token}
+                    {store.currentPool.descriptor.symbol}
                   </Text>
                 </Flex>
                 <Spacer />
@@ -106,30 +107,33 @@ const Stake = observer(() => {
                     fontWeight={700}
                     textAlign={"right"}
                     minW={"100px"}
+                    min={1}
+                    max={userStore.user.balance && Number(fromNano(userStore.user.balance))}
                     flex={1}
                     border={"none"}
                     type="number"
-                    value={store.settings.stakeAmount ?? ""}
                     _focus={{ border: "none" }}
                     _focusVisible={{ border: "none" }}
                     _placeholder={{ opacity: 0.5 }}
-                    onChange={(e) =>
-                      store.setStakeAmount(Number(e.target.value))
-                    }
+                    {...amountInput}
                   ></NumberInputField>
                 </NumberInput>
               </Flex>
+              <Collapse in={store.settings.stakeError === "amount"} animateOpacity>
+                <Text color={"text.error"} mt={2}>
+                  {store.settings.stakeError === "amount" && "Please enter a valid amount"}
+                </Text>
+              </Collapse>
               <Flex mt={2} align={"center"}>
-                <Badge variant={"solid"}>APY 158%</Badge>
+                <Badge variant={"solid"}>APY {Number(fromNano(store.currentPool.currentDerivs.apy)).toFixed(2)}%</Badge>
                 <Spacer />
-                <Text color={"text.secondary"}>$0</Text>
+                <Text color={"text.secondary"}>
+                  <ToUsd value={store.settings.stakeAmount || 0} symbol="TON" />
+                </Text>
               </Flex>
             </BgBox>
             <Button
-              isDisabled={
-                store.settings.stakeAmount === 0 ||
-                store.settings.stakeAmount === undefined
-              }
+              isDisabled={store.settings.stakeError !== undefined || store.settings.stakeAmount === undefined}
               mt={5}
               mb={5}
               variant={"big"}
@@ -153,33 +157,25 @@ const Stake = observer(() => {
           <ConfirmModal
             isOpen={store.stakeState === "confirm"}
             onClose={() => store.clearStake()}
-            onConfirm={() => store.confirmStake(true)}
-            item={item}
+            onConfirm={() => store.confirmStake(true, tonConnectUi)}
+            item={store.currentPool}
             amount={store.settings.stakeAmount || 0}
           />
           <ConfirmWalletModal
-            isOpen={
-              store.stakeState === "confirmInWallet" ||
-              store.stakeState === "pending"
-            }
-            item={item}
+            isOpen={store.stakeState === "confirmInWallet" || store.stakeState === "pending"}
+            item={store.currentPool}
             amount={store.settings.stakeAmount || 0}
             confirmed={store.stakeState === "pending"}
             onClose={() => store.clearStake()}
           />
           <ResultModal
-            item={item}
+            item={store.currentPool}
             amount={store.settings.stakeAmount || 0}
             result={store.stakeState as "success" | "error"}
-            isOpen={
-              store.stakeState === "success" || store.stakeState === "error"
-            }
+            isOpen={store.stakeState === "success" || store.stakeState === "error"}
             onClose={() => store.clearStake()}
           />
-          <SettingsModal
-            isOpen={settingsModal}
-            onClose={() => setSettingsModal(false)}
-          />
+          <SettingsModal isOpen={settingsModal} onClose={() => setSettingsModal(false)} />
         </>
       ) : (
         <Flex h={"250px"} align={"center"} justify={"center"}>

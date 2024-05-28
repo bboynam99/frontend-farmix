@@ -12,15 +12,18 @@ import {
   ModalHeader,
   ModalOverlay,
   Spacer,
-  Text} from "@chakra-ui/react"
+  Text
+} from "@chakra-ui/react"
 import React from "react"
 
-import { IStakeItem } from "@/components/stakingPool/types/IStakeItem"
+import { IStakingPool } from "@/components/stakingPool/types/IStakingPool"
+import ToUsd from "@/components/ui/toUsd/toUsd"
 import Warning from "@/components/ui/warning/warning"
+import { useStore } from "@/hooks/useStore"
 
 interface ConfirmModalProps {
   isOpen: boolean
-  item: IStakeItem
+  item: IStakingPool
   amount: number
   onClose: () => void
   onConfirm: () => void
@@ -33,6 +36,9 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   onClose,
   onConfirm
 }) => {
+  const { fromNano } = useStore()
+  const estShare = (amount / Number(fromNano(item.currentDerivs.tvl))) * 100
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
       <ModalOverlay />
@@ -48,13 +54,17 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
             <Box pb={2} mb={4}>
               <Flex align={"center"} justify={"space-between"} mb={3}>
                 <Text color={"text.secondary"}>Assets</Text>
-                <Text color={"text.secondary"}>$244</Text>
+                <Text color={"text.secondary"}>
+                  <ToUsd value={amount} symbol={"TON"} />
+                </Text>
               </Flex>
               <Flex align={"center"}>
                 <Flex align={"center"}>
-                  <Image mr={2} src={item.tokenIcon} w={8} h={8} />
+                  {item.descriptor.imgUrl && (
+                    <Image mr={2} src={item.descriptor.imgUrl} w={8} h={8} />
+                  )}
                   <Text fontSize={20} fontWeight={600}>
-                    {item.token}
+                    {item.descriptor.symbol}
                   </Text>
                 </Flex>
                 <Spacer />
@@ -67,15 +77,19 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
             <Box py={2} my={4}>
               <Flex align={"center"} justify={"space-between"}>
                 <Text color={"text.secondary"}>APR 24</Text>
-                <Text color={"text.secondary"}>109%</Text>
+                <Text color={"text.secondary"}>
+                  {fromNano(item.currentDerivs.apr720)}
+                </Text>
               </Flex>
               <Flex mt={2} align={"center"} justify={"space-between"}>
                 <Text color={"text.secondary"}>Minimum recieved</Text>
-                <Text color={"text.secondary"}>0.000084</Text>
+                <Text color={"text.secondary"}>TODO</Text>
               </Flex>
               <Flex mt={2} align={"center"} justify={"space-between"}>
                 <Text color={"text.secondary"}>Est. share of pool</Text>
-                <Text color={"text.secondary"}>{"+<0.01%"}</Text>
+                <Text color={"text.secondary"}>
+                  {estShare < 0.1 ? "<0.1" : estShare}%
+                </Text>
               </Flex>
             </Box>
             <Warning

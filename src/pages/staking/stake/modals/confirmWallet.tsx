@@ -13,11 +13,11 @@ import {
 import Lottie from "lottie-react"
 import React from "react"
 
-import { IStakeItem } from "@/components/stakingPool/types/IStakeItem"
+import { IStakingPool } from "@/components/stakingPool/types/IStakingPool"
 
 interface ConfirmWalletModalProps {
   isOpen: boolean
-  item: IStakeItem
+  item: IStakingPool
   amount: number
   confirmed: boolean
   onClose: () => void
@@ -64,7 +64,7 @@ const ConfirmWalletModal: React.FC<ConfirmWalletModalProps> = ({
               : "Confirm transaction in your wallet"}
           </Text>
           <Text textAlign={"center"} maxW={"80%"} pb={"84px"} mt={3}>
-            Confirm staking {amount} {item.token}
+            Confirm staking {amount} {item.descriptor.symbol}
           </Text>
         </ModalBody>
       </ModalContent>

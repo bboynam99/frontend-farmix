@@ -1,17 +1,8 @@
-import {
-  Box,
-  Container,
-  Spinner,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs
-} from "@chakra-ui/react"
+import { Box, Container, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
-import { IFarmersPoolItem } from "@/components/farmersPool/types/IFarmersPoolItem"
+import { IFarmersPoolRow } from "@/components/farmersPool/types/IFarmersPoolRow"
 import BackButton from "@/components/ui/backButton/backButton"
 import { farmersPools } from "@/mocks/mockData"
 
@@ -21,7 +12,7 @@ import Positions from "./tabs/positions"
 
 const FarmersPool = () => {
   const params = useParams()
-  const [item, setItem] = useState<IFarmersPoolItem | undefined>(undefined)
+  const [item, setItem] = useState<IFarmersPoolRow | undefined>(undefined)
 
   useEffect(() => {
     setTimeout(() => {
@@ -31,33 +22,19 @@ const FarmersPool = () => {
 
   return (
     <Container maxW={"container.xl"}>
-      <Box mt={"34px"}>
+      <Box mt={8} mb={6}>
         <BackButton title="Back to pools"></BackButton>
       </Box>
-      <Tabs
-        variant={"unstyled"}
-        display={"flex"}
-        flexDirection={"column"}
-        alignItems={"center"}
-      >
-        <TabList w={"525px"} p={0.5} bg={"hintBg"} borderRadius={"12px"}>
+      <Tabs variant={"unstyled"} display={"flex"} flexDirection={"column"} alignItems={"center"}>
+        <TabList w={["100%", "525px"]} p={0.5} bg={"hintBg"} borderRadius={"12px"}>
           {["Open position", "Positions", "History"].map((item) => (
-            <Tab
-              fontWeight={600}
-              _selected={{ bg: "secondaryBg" }}
-              borderRadius={"10px"}
-              flex={"1"}
-            >
+            <Tab key={item} fontSize={[12, 16]} fontWeight={600} _selected={{ bg: "secondaryBg" }} borderRadius={"10px"} flex={"1"}>
               {item}
             </Tab>
           ))}
         </TabList>
         <TabPanels>
-          <TabPanel
-            display={"flex"}
-            flexDirection={"column"}
-            alignItems={"center"}
-          >
+          <TabPanel display={"flex"} flexDirection={"column"} alignItems={"center"} px={[0, 4]}>
             {item ? <OpenPosition item={item} /> : <Spinner></Spinner>}
           </TabPanel>
           <TabPanel>

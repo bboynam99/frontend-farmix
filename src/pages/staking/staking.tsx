@@ -11,43 +11,57 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  // Select,
   Spacer,
+  Spinner,
   Switch,
   Text
 } from "@chakra-ui/react"
+import { observer } from "mobx-react-lite"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 
+import { getStakingPools } from "@/api/staking/getStakingPools"
 import Banner from "@/components/banner/banner"
 import StakingPoolTable from "@/components/stakingPool/stakingPoolTable"
+import { IStakingPool } from "@/components/stakingPool/types/IStakingPool"
 import SelectUi from "@/components/ui/select/selectUi"
 import useDebounce from "@/hooks/useDebounce"
-import { selectOptions } from "@/mocks/selectOptions"
+import { useInput } from "@/hooks/useInput"
 
-import { pool } from "../../mocks/mockData"
+const sortOptions = [
+  {
+    label: "Sorting by TVL",
+    value: "tvl"
+  },
+  {
+    label: "Sorting by APR24",
+    value: "apr24"
+  }
+]
 
-const StakingPool = () => {
+const StakingPool = observer(() => {
   const { t } = useTranslation("stakingPool")
-  const [selectedValue, setSelectedValue] = useState<string>("")
-  const [searchValue, setSearchValue] = useState<string>("")
-  const [filteredList, setFilteredList] = useState(pool)
-  const debouncedValue = useDebounce<string>(searchValue, 500)
-  console.log(selectedValue)
+  const [sort, setSort] = useState(sortOptions[0])
+  const [pools, setPools] = useState<IStakingPool[] | undefined>()
+  const searchInput = useInput("")
+  const debouncedSearch = useDebounce(searchInput.value, 500)
+
+  const handleSelectSorting = (v: (typeof sortOptions)[number]) => {
+    setSort(v)
+    getStakingPools(v.value).then((res) => {
+      setPools(res?.pools)
+    })
+  }
 
   useEffect(() => {
-    debouncedValue.length
-      ? setFilteredList(
-          pool.filter((item) =>
-            item.token.toLowerCase().includes(debouncedValue.toLowerCase())
-          )
-        )
-      : setFilteredList(pool)
-  }, [debouncedValue])
+    getStakingPools(undefined, debouncedSearch !== "" ? debouncedSearch : undefined).then((res) => {
+      setPools(res?.pools)
+    })
+  }, [debouncedSearch])
 
   return (
-    <Container maxW={"container.xl"}>
-      <Box mt={16}>
+    <Container maxW="container.xl">
+      <Box mt={[7, 16, 16]}>
         <Banner
           bgImage={bannerBg}
           image={moneyBanner}
@@ -57,23 +71,31 @@ const StakingPool = () => {
           text={t("banner.text")}
         />
       </Box>
-      <Text fontSize={36} fontWeight={700} mb={8} mt={"56px"}>
-        {t("title")}
-      </Text>
-      <Flex alignItems={"center"} mb={6}>
-        <Flex alignItems={"center"}>
+      <Flex justifyContent="space-between" alignItems="baseline" mb={8} mt={[4, 14, 14]}>
+        <Text fontSize={[24, 36]} fontWeight={700}>
+          {t("title")}
+        </Text>
+        <FormControl w="auto" hideFrom="md" display="flex" alignItems="baseline">
+          <FormLabel htmlFor="staking" mb="0">
+            {t("switchLabel")}
+          </FormLabel>
+          <Switch id="staking" />
+        </FormControl>
+      </Flex>
+      <Flex alignItems="center" mb={6} flexWrap="wrap">
+        <Flex alignItems="center" flexBasis={["100%", "auto", "auto"]}>
           <InputGroup>
             <InputLeftElement>
               <Image src={searchIcon}></Image>
             </InputLeftElement>
             <Input
               placeholder={t("searchPlaceholder")}
-              w={"368px"}
+              w={["100%", "auto", "368px"]}
               flexShrink={0}
-              onChange={(e) => setSearchValue(e.target.value)}
+              {...searchInput}
             ></Input>
           </InputGroup>
-          <FormControl display="flex" alignItems="center" ml={"28px"}>
+          <FormControl hideBelow={"md"} display="flex" alignItems="center" ml={7}>
             <FormLabel htmlFor="staking" mb="0">
               {t("switchLabel")}
             </FormLabel>
@@ -81,19 +103,26 @@ const StakingPool = () => {
           </FormControl>
         </Flex>
         <Spacer />
-        <Box w={"264px"}>
+        <Box w={["auto", "264px", "264px"]} flexBasis={["100%", "auto", "auto"]} mt={[4, 0, 0]}>
           <SelectUi
             isSearchable={false}
             placeholder={t("selectPlaceholder")}
-            onChange={(e) => setSelectedValue(e as string)}
-            defaultValue={selectOptions[0]}
-            options={selectOptions}
+            onChange={(e) => handleSelectSorting(e as (typeof sortOptions)[0])}
+            value={sort}
+            defaultValue={sortOptions[0].value}
+            options={sortOptions}
           ></SelectUi>
         </Box>
       </Flex>
-      <StakingPoolTable list={filteredList || []} />
+      {pools ? (
+        <StakingPoolTable list={pools || []} />
+      ) : (
+        <Flex w="100%" h="300px" alignItems="center" justifyContent="center">
+          <Spinner />
+        </Flex>
+      )}
     </Container>
   )
-}
+})
 
 export default StakingPool

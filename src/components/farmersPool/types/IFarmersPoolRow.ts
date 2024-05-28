@@ -1,6 +1,6 @@
 import { IDex } from "./IDex"
 
-export interface IFarmersPoolItem {
+export interface IFarmersPoolRow {
   id: number
   tokenIcon: string
   token: string

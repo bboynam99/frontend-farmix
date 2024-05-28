@@ -19,25 +19,31 @@ const Banner = ({
 }: BannerProps) => {
   return (
     <Flex
-      p={16}
+      p={[8, 8, 16]}
       borderRadius={"36px"}
       bgImage={bgImage}
       bgSize={"cover"}
       w={"100%"}
       alignItems={"center"}
       bgPos={"bottom"}
+      pos={"relative"}
     >
-      <Box maxW={"60%"}>
-        <Text fontSize={"44px"} fontWeight={700} color={"white"}>
+      <Box w={["100%", "60%", "60%"]}>
+        <Text
+          fontSize={[24, null, 44]}
+          fontWeight={700}
+          color={"white"}
+        >
           {title}
         </Text>
-        <Text mb={"44px"} color={"white"}>
+        <Text mb={[16, 16, "44px"]} color={"white"}>
           {text}
         </Text>
         <Button
           onClick={() => (window.location.href = buttonLink)}
           bg={"white"}
           color={"black"}
+          width={["100%","auto"]}
           px={12}
           h={"46px"}
           _hover={{ bg: "rgba(255,255,255,0.8)" }}
@@ -45,8 +51,15 @@ const Banner = ({
           {buttonText}
         </Button>
       </Box>
-      <Spacer />
-      <Image src={image} w={"284px"} h={"228px"}></Image>
+      <Spacer hideBelow={"md"} />
+      <Image
+        pos={["absolute", "relative", "relative"]}
+        right={0}
+        bottom={[20, 0, 0]}
+        src={image}
+        w={["114px,", "284px", "284px"]}
+        h={["92px", "228px", "228px"]}
+      ></Image>
     </Flex>
   )
 }

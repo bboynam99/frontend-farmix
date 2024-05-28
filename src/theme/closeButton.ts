@@ -1,5 +1,5 @@
 export const closeButtonTheme = {
     baseStyle: {
-        color: "#ffffff"
+        // color: "#ffffff"
     }
 }

@@ -25,198 +25,185 @@ import {
 } from "@chakra-ui/react"
 import { observer } from "mobx-react-lite"
 
-import { IFarmersPoolItem } from "@/components/farmersPool/types/IFarmersPoolItem"
+import { IFarmersPoolRow } from "@/components/farmersPool/types/IFarmersPoolRow"
 import BgBox from "@/components/ui/bgBox/bgBox"
-import SelectUi from "@/components/ui/select/selectUi"
+// import SelectUi from "@/components/ui/select/selectUi"
 import { useStore } from "@/hooks/useStore"
-import { dexOptions } from "@/mocks/selectOptions"
 
+// import { dexOptions } from "@/mocks/selectOptions"
 import ConfirmModal from "../modals/confirm"
 
-const OpenPosition = observer(
-  ({ item }: { item: IFarmersPoolItem | undefined }) => {
-    const settingsIcon = useColorModeValue(settingsIconDark, settingsIconLight)
-    const refreshIcon = useColorModeValue(refreshIconDark, refreshIconLight)
-    const plusIcon = useColorModeValue(plusIconDark, plusIconLight)
-    const { farmersStore: store } = useStore()
+const OpenPosition = observer(({ item }: { item: IFarmersPoolRow | undefined }) => {
+  const settingsIcon = useColorModeValue(settingsIconDark, settingsIconLight)
+  const refreshIcon = useColorModeValue(refreshIconDark, refreshIconLight)
+  const plusIcon = useColorModeValue(plusIconDark, plusIconLight)
+  const { farmersStore: store, userStore, fromNano } = useStore()
 
-    return (
-      <Flex flexDirection={"column"} alignSelf={"center"} w={"525px"}>
-        {/* <SelectUi options={dexOptions}></SelectUi> */}
+  return (
+    <Flex flexDirection={"column"} alignSelf={"center"} w={["100%", "525px"]}>
+      {/* <SelectUi options={dexOptions}></SelectUi> */}
+      <BgBox px={6} py={5} radius="12px" border>
+        <Flex alignItems={"center"} justify={"space-between"} mb={8}>
+          <Text fontSize={24} fontWeight={600}>
+            Position
+          </Text>
+          <Flex>
+            <Box mr={5} onClick={() => {}} cursor={"pointer"}>
+              <Image src={settingsIcon} w={8} h={8} />
+            </Box>
+            <Box cursor={"pointer"} onClick={() => {}}>
+              <Image src={refreshIcon} w={8} h={8} />
+            </Box>
+          </Flex>
+        </Flex>
+
+        {item ? (
+          <>
+            <Flex mb={3}>
+              <Text color={"text.secondary"}>Asset 1</Text>
+              <Spacer />
+              <Flex alignItems={"center"}>
+                <Image src={walletIcon} w={4} h={4}></Image>
+                <Text color={"text.accent"} ml={2}>
+                  {userStore.user.balance && Number(fromNano(userStore.user.balance)).toFixed(2)}
+                </Text>
+              </Flex>
+            </Flex>
+            <Flex align={"center"}>
+              <Flex align={"center"}>
+                <Image mr={2} src={item.tokenIcon} w={8} h={8} />
+                <Text fontSize={24} fontWeight={700}>
+                  {item.token}
+                </Text>
+              </Flex>
+              <Spacer />
+              <NumberInput min={0}>
+                <NumberInputField
+                  id="asset1Amount"
+                  pr={0}
+                  placeholder="0.00"
+                  fontSize={24}
+                  fontWeight={700}
+                  textAlign={"right"}
+                  minW={"100px"}
+                  flex={1}
+                  border={"none"}
+                  type="number"
+                  value={store.settings.asset1Amount ?? ""}
+                  _focus={{ border: "none" }}
+                  _focusVisible={{ border: "none" }}
+                  _placeholder={{ opacity: 0.5 }}
+                  onChange={(e) => store.setAsset1Amount(Number(e.target.value))}
+                ></NumberInputField>
+              </NumberInput>
+            </Flex>
+
+            <Flex align={"center"} my={4}>
+              <Divider mr={2} />
+              <Image src={plusIcon} w={8} h={8} />
+              <Divider ml={2} />
+            </Flex>
+
+            <Flex mb={3}>
+              <Text color={"text.secondary"}>Asset 2</Text>
+              <Spacer />
+              <Flex alignItems={"center"}>
+                <Image src={walletIcon} w={4} h={4}></Image>
+                <Text color={"text.accent"} ml={2}>
+                  {userStore.user.balance && Number(fromNano(userStore.user.balance)).toFixed(2)}
+                </Text>
+              </Flex>
+            </Flex>
+            <Flex align={"center"}>
+              <Flex align={"center"}>
+                <Image mr={2} src={item.tokenSecondIcon} w={8} h={8} />
+                <Text fontSize={24} fontWeight={700}>
+                  {item.tokenSecond}
+                </Text>
+              </Flex>
+              <Spacer />
+              <NumberInput min={0}>
+                <NumberInputField
+                  id="asset1Amount"
+                  pr={0}
+                  placeholder="0.00"
+                  fontSize={24}
+                  fontWeight={700}
+                  textAlign={"right"}
+                  minW={"100px"}
+                  flex={1}
+                  border={"none"}
+                  type="number"
+                  value={store.settings.asset2Amount ?? ""}
+                  _focus={{ border: "none" }}
+                  _focusVisible={{ border: "none" }}
+                  _placeholder={{ opacity: 0.5 }}
+                  onChange={(e) => store.setAsset2Amount(Number(e.target.value))}
+                ></NumberInputField>
+              </NumberInput>
+            </Flex>
+          </>
+        ) : (
+          <Flex h={"250px"} align={"center"} justify={"center"}>
+            <Spinner></Spinner>
+          </Flex>
+        )}
+      </BgBox>
+      <Box mt={4}>
         <BgBox px={6} py={5} radius="12px" border>
-          <Flex alignItems={"center"} justify={"space-between"} mb={8}>
-            <Text fontSize={24} fontWeight={600}>
-              Position
+          <Flex flexDirection={"column"}>
+            <Text fontWeight={600} mb={2}>
+              Leverage
             </Text>
-            <Flex>
-              <Box mr={5} onClick={() => {}} cursor={"pointer"}>
-                <Image src={settingsIcon} w={8} h={8} />
-              </Box>
-              <Box cursor={"pointer"} onClick={() => {}}>
-                <Image src={refreshIcon} w={8} h={8} />
-              </Box>
+            <Flex align={"center"}>
+              <Slider
+                aria-label="slider-ex-1"
+                value={store.settings.leverage}
+                max={3}
+                min={1}
+                step={0.1}
+                onChange={(e) => store.setLeverage(e)}
+              >
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <SliderThumb />
+              </Slider>
+              <Text color={"text.secondary"} mr={2} ml={6} fontWeight={600} alignSelf={"end"} mb={0.5}>
+                x
+              </Text>
+              <Text fontSize={24} fontWeight={700}>
+                {store.settings.leverage}
+              </Text>
             </Flex>
           </Flex>
-
-          {item ? (
-            <>
-              <Flex mb={3}>
-                <Text color={"text.secondary"}>Asset 1</Text>
-                <Spacer />
-                <Flex alignItems={"center"}>
-                  <Image src={walletIcon} w={4} h={4}></Image>
-                  <Text color={"text.accent"} ml={2}>
-                    348 000.745
-                  </Text>
-                </Flex>
-              </Flex>
-              <Flex align={"center"}>
-                <Flex align={"center"}>
-                  <Image mr={2} src={item.tokenIcon} w={8} h={8} />
-                  <Text fontSize={24} fontWeight={700}>
-                    {item.token}
-                  </Text>
-                </Flex>
-                <Spacer />
-                <NumberInput min={0}>
-                  <NumberInputField
-                    id="asset1Amount"
-                    pr={0}
-                    placeholder="0.00"
-                    fontSize={24}
-                    fontWeight={700}
-                    textAlign={"right"}
-                    minW={"100px"}
-                    flex={1}
-                    border={"none"}
-                    type="number"
-                    value={store.settings.asset1Amount ?? ""}
-                    _focus={{ border: "none" }}
-                    _focusVisible={{ border: "none" }}
-                    _placeholder={{ opacity: 0.5 }}
-                    onChange={(e) =>
-                      store.setAsset1Amount(Number(e.target.value))
-                    }
-                  ></NumberInputField>
-                </NumberInput>
-              </Flex>
-
-              <Flex align={"center"} my={4}>
-                <Divider mr={2} />
-                <Image src={plusIcon} w={8} h={8} />
-                <Divider ml={2} />
-              </Flex>
-
-              <Flex mb={3}>
-                <Text color={"text.secondary"}>Asset 2</Text>
-                <Spacer />
-                <Flex alignItems={"center"}>
-                  <Image src={walletIcon} w={4} h={4}></Image>
-                  <Text color={"text.accent"} ml={2}>
-                    348 000.745
-                  </Text>
-                </Flex>
-              </Flex>
-              <Flex align={"center"}>
-                <Flex align={"center"}>
-                  <Image mr={2} src={item.tokenSecondIcon} w={8} h={8} />
-                  <Text fontSize={24} fontWeight={700}>
-                    {item.tokenSecond}
-                  </Text>
-                </Flex>
-                <Spacer />
-                <NumberInput min={0}>
-                  <NumberInputField
-                    id="asset1Amount"
-                    pr={0}
-                    placeholder="0.00"
-                    fontSize={24}
-                    fontWeight={700}
-                    textAlign={"right"}
-                    minW={"100px"}
-                    flex={1}
-                    border={"none"}
-                    type="number"
-                    value={store.settings.asset2Amount ?? ""}
-                    _focus={{ border: "none" }}
-                    _focusVisible={{ border: "none" }}
-                    _placeholder={{ opacity: 0.5 }}
-                    onChange={(e) =>
-                      store.setAsset2Amount(Number(e.target.value))
-                    }
-                  ></NumberInputField>
-                </NumberInput>
-              </Flex>
-            </>
-          ) : (
-            <Flex h={"250px"} align={"center"} justify={"center"}>
-              <Spinner></Spinner>
-            </Flex>
-          )}
+          <Flex justifyContent={"flex-end"} mt={2}>
+            <Badge variant={"solid"}>APY 158%</Badge>
+          </Flex>
         </BgBox>
-        <Box mt={4}>
-          <BgBox px={6} py={5} radius="12px" border>
-            <Flex flexDirection={"column"}>
-              <Text fontWeight={600} mb={2}>
-                Leverage
-              </Text>
-              <Flex align={"center"}>
-                <Slider
-                  aria-label="slider-ex-1"
-                  value={store.settings.leverage}
-                  max={3}
-                  min={1}
-                  step={0.1}
-                  onChange={(e) => store.setLeverage(e)}
-                >
-                  <SliderTrack>
-                    <SliderFilledTrack />
-                  </SliderTrack>
-                  <SliderThumb />
-                </Slider>
-                <Text
-                  color={"text.secondary"}
-                  mr={2}
-                  ml={6}
-                  fontWeight={600}
-                  alignSelf={"end"}
-                  mb={0.5}
-                >
-                  x
-                </Text>
-                <Text fontSize={24} fontWeight={700}>
-                  {store.settings.leverage}
-                </Text>
-              </Flex>
-            </Flex>
-            <Flex justifyContent={"flex-end"} mt={2}>
-              <Badge variant={"solid"}>APY 158%</Badge>
-            </Flex>
-          </BgBox>
-        </Box>
-        <Box mt={6}>
-          <Button
-            isDisabled={ !store.settings.asset1Amount || !store.settings.asset2Amount}
-            variant={"big"}
-            onClick={() => store.setOpenStatus("confirm")}
-          >
-            Open position
-          </Button>
-        </Box>
-        {item && (
-          <ConfirmModal
-            isOpen={store.openStatus === "confirm"}
-            item={item}
-            leverage={store.settings.leverage}
-            amount={store.settings.asset1Amount || 0}
-            amount2={store.settings.asset2Amount || 0}
-            onClose={() => store.setOpenStatus(undefined)}
-            onConfirm={() => store.setOpenStatus("opened")}
-          />
-        )}
-      </Flex>
-    )
-  }
-)
+      </Box>
+      <Box mt={6}>
+        <Button
+          isDisabled={!store.settings.asset1Amount || !store.settings.asset2Amount}
+          variant={"big"}
+          onClick={() => store.setOpenStatus("confirm")}
+        >
+          Open position
+        </Button>
+      </Box>
+      {item && (
+        <ConfirmModal
+          isOpen={store.openStatus === "confirm"}
+          item={item}
+          leverage={store.settings.leverage}
+          amount={store.settings.asset1Amount || 0}
+          amount2={store.settings.asset2Amount || 0}
+          onClose={() => store.setOpenStatus(undefined)}
+          onConfirm={() => store.setOpenStatus("opened")}
+        />
+      )}
+    </Flex>
+  )
+})
 
 export default OpenPosition

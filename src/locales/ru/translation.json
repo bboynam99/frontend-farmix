@@ -1,12 +1,30 @@
 {
+  "common": {
+    "backTo": "Вернуться к",
+    "viewOn": "Посмотреть на"
+  },
   "stakingPool": {
-    "title": "Пул ликвидности",
-    "switchLabel": "Моя ликвидность",
+    "title": "Стейкинг",
+    "switchLabel": "В стейкинге",
     "searchPlaceholder": "Искать активы и адреса",
     "banner": {
-      "buttonText": "Добавить ликвидность",
-      "title": "Предоставьте ликвидность и зарабатывайте на комиссии",
-      "text": "Откройте новые возможности предоставляя ликвидность. Выберите для себя лучший пул и начните зарабатывать сейчас!"
+      "buttonText": "Стейкинг",
+      "title": "Внесите свои активы и получайте награды",
+      "text": "Открывайте новые возможности со стейкингом. Выберите лучший пул и начинайте получать награды сегодня!"
+    },
+    "table": {
+      "totalBalance": "Общий баланс",
+      "totalEarned": "Общий доход",
+      "unstake": "Вывести",
+      "add": "Добавить",
+      "claimAndUnstake": "Вывести",
+      "staked": "В стейкинге",
+      "earned": "Доход",
+      "stake": "В стейкинг",
+      "rate": "Курс",
+      "pool": "Пул",
+      "confirmUnstake": "Подтвердить вывод",
+      "fee": "Комиссия сети"
     }
   },
   "farmers": {
@@ -24,9 +42,5 @@
       "staking": "Стейкинг",
       "farmers": "Фармеры"
     }
-  },
-  "description": {
-    "part1": "To get started, edit <1>src/App.js</1> and save to reload.",
-    "part2": "Switch language between english and german using buttons above."
   }
 }

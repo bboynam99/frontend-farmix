@@ -10,7 +10,8 @@ export const buttonTheme = {
   },
   sizes: {
     md: {
-      minWidth: "144px",
+      minWidth: ["none", "144px"],
+      width: ["100%", "auto"],
     },
     sm: {
       height: "36px",
