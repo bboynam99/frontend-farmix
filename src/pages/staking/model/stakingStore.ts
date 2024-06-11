@@ -5,7 +5,7 @@ import { makeAutoObservable, runInAction } from "mobx"
 import { getStakingPool } from "@/api/staking/getStakingPool"
 import { IStakingPool } from "@/components/stakingPool/types/IStakingPool"
 import { RootStore } from "@/store/rootStore"
-import { createDepositMessage } from "@/utils/createTonconnectMessage"
+import { createDepositMessage, createLendNativeTokenMessage } from "@/utils/createTonconnectMessage"
 
 import { StakeState } from "./types/stakeState"
 
@@ -62,7 +62,7 @@ class StakingStore {
   confirmStake = (confirmed: boolean, tonConnectUI?: TonConnectUI) => {
     if (confirmed && tonConnectUI) {
       this.setStakeState("confirmInWallet")
-      this.sendDeposit(tonConnectUI)
+      this.lendNativeToken(tonConnectUI)
       // setTimeout(() => {
       //   this.setStakeState("pending")
       // }, 2000)
@@ -99,6 +99,28 @@ class StakingStore {
         validUntil: Math.floor(Date.now() / 1000) + txValidUntil,
         network: CHAIN.TESTNET,
         from: Address.parse(this.rootStore.userStore.user.walletAddress).toRawString(),
+        messages: [message]
+      }
+      void tonConnectUI.sendTransaction(tx).then(() => {})
+    }
+  }
+
+  lendNativeToken = async (tonConnectUI: TonConnectUI) => {
+    if (
+      this.currentPool !== undefined &&
+      this.rootStore.userStore.user.walletAddress !== undefined &&
+      this.settings.stakeAmount !== undefined
+    ) {
+      const message = createLendNativeTokenMessage(
+        // Address.parse(this.currentPool?.descriptor.contractAddr),
+        Address.parse("kQDt1n3Kx6aac90jjoJlkHikkSv6vzIJZvQ6tIYifHpgDWcl"),
+        toNano(this.settings.stakeAmount)
+      )
+      const tx: SendTransactionRequest = {
+        validUntil: Math.floor(Date.now() / 1000) + txValidUntil,
+        network: CHAIN.TESTNET,
+        from: Address.parse(this.rootStore.userStore.user.walletAddress).toRawString(),
+        // from: Address.parse("kQDM_zWhr2kSFztRFDGVYJjuHgtCmldNqFEiQsvOKXmjXwuz").toRawString(),
         messages: [message]
       }
       void tonConnectUI.sendTransaction(tx).then(() => {})

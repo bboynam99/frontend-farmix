@@ -7,7 +7,6 @@ import StakingStore from "@/pages/staking/model/stakingStore"
 import { IRates } from "@/types/rates"
 
 import UserStore from "./userStore"
-
 export class RootStore {
   stakingStore: StakingStore
   farmersStore: FarmersStore
@@ -32,6 +31,29 @@ export class RootStore {
       )
     } catch (error) {
       console.error("Error initializing TonWeb:", error)
+    }
+  }
+
+  getJettonBalance = async () => {
+    if (this.tonweb) {
+      const jettonMinter = new TonWeb.token.jetton.JettonMinter(this.tonweb.provider, {
+        adminAddress: new TonWeb.utils.Address("EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs"),
+        jettonContentUri: "",
+        jettonWalletCodeHex: ""
+      })
+      const address = await jettonMinter.getJettonWalletAddress(
+        new TonWeb.utils.Address("UQA0m675UeqSuX0OPY-wg5v7FPMNaa-YunISE-As_wlor78C")
+      )
+      // It is important to always check that wallet indeed is attributed to desired Jetton Master:
+      const jettonWallet = new TonWeb.token.jetton.JettonWallet(this.tonweb.provider, {
+        address: "EQDHKnmBh7GSPIM63yidXwhWpUf3AlIe1jZoGK1BIhNdP6n_"
+      })
+      const jettonData = await jettonWallet.getData()
+      if (jettonData.jettonMinterAddress.toString(false) !== new TonWeb.utils.Address(address).toString(false)) {
+        throw new Error("jetton minter address from jetton wallet doesnt match config")
+      }
+
+      console.log("Jetton wallet address:", address.toString(true, true, true))
     }
   }
 

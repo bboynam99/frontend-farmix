@@ -4,31 +4,31 @@
     "viewOn": "View on"
   },
   "stakingPool": {
-    "title": "Staking",
-    "switchLabel": "Staked",
+    "title": "Lending",
+    "switchLabel": "Lended",
     "searchPlaceholder": "Search assets or address",
     "banner": {
-      "buttonText": "Stake now",
-      "title": "Stake your assets and earn rewards",
-      "text": "Discover new possibilities with staking your assets. Select the ideal pool for you and begin earning rewards today!"
+      "buttonText": "Lend now",
+      "title": "Lend your assets and earn rewards",
+      "text": "Discover new possibilities with lending your assets. Select the ideal pool for you and begin earning rewards today!"
     },
     "table": {
       "totalBalance": "Total balance",
       "totalEarned": "Total earned",
-      "unstake": "Unstake",
+      "unstake": "Unlend",
       "add": "Add",
-      "claimAndUnstake": "Claim and unstake",
-      "staked": "Staked",
+      "claimAndUnstake": "Claim and unlend",
+      "staked": "Lended",
       "earned": "Earned",
-      "stake": "Stake",
+      "stake": "Lend",
       "rate": "Rate",
       "pool": "Pool",
-      "confirmUnstake": "Confirm unstake",
+      "confirmUnstake": "Confirm unlend",
       "fee": "Blockchain fee"
     }
   },
   "farmers": {
-    "title": "Farmers Pool",
+    "title": "Farmers",
     "switchLabel": "My positions",
     "searchPlaceholder": "Search assets or address",
     "banner": {
@@ -37,9 +37,22 @@
       "text": "Explore new possibilities with farmix. Choose the perfect pool for you and start trading with leverage in decentralized liquidity pools today!"
     }
   },
+  "positions": {
+    "title": "Positions",
+    "position": "Position",
+    "leverage": "Leverage",
+    "open": "Open position",
+    "add": "Add",
+    "closePosition": "Close position",
+    "cancel": "Cancel",
+    "entryPrice": "Entry price",
+    "marketPrice": "Market price",
+    "fee": "Blockchain fee",
+    "addMargin": "Add margin"
+  },
   "navbar": {
     "paths": {
-      "staking": "Staking",
+      "lending": "Lending",
       "farmers": "Farmers"
     }
   }

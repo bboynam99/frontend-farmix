@@ -2,7 +2,9 @@ import { Box, Divider, Flex, Image, Stack } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 
 import FarmersPoolTableCell from "./farmersPoolTableCell"
-import { IFarmersPoolRow } from "./types/IFarmersPoolRow"
+import { IFarmersPoolRow } from "../types/IFarmersPoolRow"
+import stonfiImg from "@assets/png/ston.fi.png"
+import dedustImg from "@assets/png/dedust.io.png"
 
 interface FarmersPoolTableRowProps {
   item: IFarmersPoolRow
@@ -35,7 +37,12 @@ const FarmersPoolTableRow = ({ item }: FarmersPoolTableRowProps) => {
           </Flex>
         </FarmersPoolTableCell>
         <Divider hideFrom={"sm"} />
-        <FarmersPoolTableCell text="DEX">{item.dex}</FarmersPoolTableCell>
+        <FarmersPoolTableCell text="DEX">
+          <Flex alignItems={"center"}>
+            <Image src={item.dex === "ston.fi" ? stonfiImg : dedustImg} borderRadius={"99px"} w={5} h={5} mr={1} />
+            {item.dex}
+          </Flex>
+        </FarmersPoolTableCell>
         <Divider hideFrom={"sm"} />
         <FarmersPoolTableCell text="APR 24h" justify="flex-end">
           {item.apr}

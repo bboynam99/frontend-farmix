@@ -16,6 +16,7 @@ import StakingPool from "./pages/staking/staking.tsx"
 import rootStore from "./store/rootStore.ts"
 import { RootStoreContext } from "./store/rootStoreContext.tsx"
 import theme from "./theme/theme.ts"
+import FarmersPair from "./pages/farmers/position/position.tsx"
 
 i18n.init({
   resources: resources,
@@ -36,15 +37,13 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <ChakraProvider theme={theme}>
           <Routes>
             <Route element={<App />}>
-              <Route path="/staking" element={<StakingPool />}></Route>
-              <Route path="/staking/pair/:id" element={<Pair />}></Route>
-              <Route path="/staking/pair/:id/stake" element={<Stake />}></Route>
+              <Route path="/lending" element={<StakingPool />}></Route>
+              <Route path="/lending/pair/:id" element={<Pair />}></Route>
+              <Route path="/lending/pair/:id/stake" element={<Stake />}></Route>
               <Route path="/farmers" element={<Farmers></Farmers>}></Route>
-              <Route
-                path="/farmers/pool/:id"
-                element={<FarmersPool></FarmersPool>}
-              ></Route>
-              <Route index path="/*" element={<Navigate to="/staking" />} />
+              <Route path="/farmers/pool/:id" element={<FarmersPool />}></Route>
+              <Route path="/farmers/pool/:id/:positionId" element={<FarmersPair />}></Route>
+              <Route index path="/*" element={<Navigate to="/lending" />} />
             </Route>
           </Routes>
         </ChakraProvider>

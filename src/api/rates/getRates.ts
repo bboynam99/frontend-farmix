@@ -8,7 +8,6 @@ export const getRates = async (
   const corsAnywhereProxyUrl = "https://cors-anywhere.herokuapp.com/"
   try {
     const response = await axios.get(
-      corsAnywhereProxyUrl +
         `${import.meta.env.VITE_API_URL}/api/rates?tokens=${symbol}`
     )
     return response.data.rates

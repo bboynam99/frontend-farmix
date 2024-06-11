@@ -41,7 +41,7 @@ const Pair = observer(() => {
   const stake = () => {
     store.currentPool &&
       store.currentPool.descriptor.id &&
-      nav(`/staking/pair/${store.currentPool.descriptor.symbol}/stake`)
+      nav(`/lending/pair/${store.currentPool.descriptor.symbol}/stake`)
   }
   const unstake = (value: number) => {
     console.log(value) /* TODO UNSTAKE */

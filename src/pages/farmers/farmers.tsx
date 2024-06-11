@@ -20,7 +20,7 @@ import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 import Banner from "@/components/banner/banner"
-import FarmersPoolTable from "@/components/farmersPool/farmersPoolTable"
+import FarmersPoolTable from "@/components/farmersPool/pool/farmersPoolTable"
 import { IDex } from "@/components/farmersPool/types/IDex"
 import SelectUi from "@/components/ui/select/selectUi"
 import useDebounce from "@/hooks/useDebounce"
@@ -146,7 +146,6 @@ const Farmers = () => {
       ) : (
         <Flex w="100%" h="300px" alignItems="center" justifyContent="center">
           <Spinner />
-          div
         </Flex>
       )}
     </Container>

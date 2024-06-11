@@ -1,6 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react"
 
-import HistoryTable from "@/components/farmersPool/historyTable"
+import HistoryTable from "@/components/farmersPool/history/historyTable"
 
 const History = () => {
   return (

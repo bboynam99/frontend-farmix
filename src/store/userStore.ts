@@ -5,6 +5,7 @@ import { RootStore } from "./rootStore"
 interface IUser {
   walletAddress: string | undefined
   balance: string | undefined
+  // allBalances: string[] | undefined
 }
 
 class UserStore {
@@ -21,6 +22,14 @@ class UserStore {
 
   setUserBalance = (balance: string) => {
     this.user.balance = balance
+  }
+
+  setUserAllBalances = (balances: Record<string, string>) => {
+    this.user.balance = balances["FARM"]
+  }
+
+  getTokenBalance = (symbol: string) => {
+    
   }
 }
 

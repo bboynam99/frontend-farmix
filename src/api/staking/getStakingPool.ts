@@ -9,7 +9,7 @@ export const getStakingPool = async (
   const corsAnywhereProxyUrl = "https://cors-anywhere.herokuapp.com/"
   try {
     const response = await axios.get(
-      corsAnywhereProxyUrl +
+      // corsAnywhereProxyUrl +
         `${import.meta.env.VITE_API_URL}/api/staking/pool/${symbol}${
           walletAddr ? "?walletAddr=" + walletAddr : ""
         }`

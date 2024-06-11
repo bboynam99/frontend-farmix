@@ -24,28 +24,28 @@ import {
   useColorModeValue
 } from "@chakra-ui/react"
 import { observer } from "mobx-react-lite"
-
 import { IFarmersPoolRow } from "@/components/farmersPool/types/IFarmersPoolRow"
 import BgBox from "@/components/ui/bgBox/bgBox"
 // import SelectUi from "@/components/ui/select/selectUi"
 import { useStore } from "@/hooks/useStore"
-
-// import { dexOptions } from "@/mocks/selectOptions"
+import PoolSelect from "@/components/farmersPool/poolSelect/poolSelect"
 import ConfirmModal from "../modals/confirm"
+import { useTranslation } from "react-i18next"
 
 const OpenPosition = observer(({ item }: { item: IFarmersPoolRow | undefined }) => {
   const settingsIcon = useColorModeValue(settingsIconDark, settingsIconLight)
   const refreshIcon = useColorModeValue(refreshIconDark, refreshIconLight)
   const plusIcon = useColorModeValue(plusIconDark, plusIconLight)
   const { farmersStore: store, userStore, fromNano } = useStore()
+  const { t } = useTranslation("positions")
 
   return (
     <Flex flexDirection={"column"} alignSelf={"center"} w={["100%", "525px"]}>
-      {/* <SelectUi options={dexOptions}></SelectUi> */}
+      <PoolSelect></PoolSelect>
       <BgBox px={6} py={5} radius="12px" border>
         <Flex alignItems={"center"} justify={"space-between"} mb={8}>
           <Text fontSize={24} fontWeight={600}>
-            Position
+            {t("position")}
           </Text>
           <Flex>
             <Box mr={5} onClick={() => {}} cursor={"pointer"}>
@@ -167,7 +167,7 @@ const OpenPosition = observer(({ item }: { item: IFarmersPoolRow | undefined }) 
                 <SliderTrack>
                   <SliderFilledTrack />
                 </SliderTrack>
-                <SliderThumb />
+                <SliderThumb shadow={"0px 0px 4px 0px rgba(0,0,0,0.1), 6px 0px 12px 0px rgba(0,0,0,0.1)"} />
               </Slider>
               <Text color={"text.secondary"} mr={2} ml={6} fontWeight={600} alignSelf={"end"} mb={0.5}>
                 x
@@ -188,7 +188,7 @@ const OpenPosition = observer(({ item }: { item: IFarmersPoolRow | undefined }) 
           variant={"big"}
           onClick={() => store.setOpenStatus("confirm")}
         >
-          Open position
+          {t("open")}
         </Button>
       </Box>
       {item && (

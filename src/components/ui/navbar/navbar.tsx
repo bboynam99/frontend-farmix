@@ -24,13 +24,7 @@ import {
   Tabs,
   useColorMode
 } from "@chakra-ui/react"
-import {
-  Locales,
-  THEME,
-  TonConnectButton,
-  useIsConnectionRestored,
-  useTonConnectUI
-} from "@tonconnect/ui-react"
+import { Locales, THEME, TonConnectButton, useIsConnectionRestored, useTonConnectUI } from "@tonconnect/ui-react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -62,9 +56,7 @@ const Navbar = ({ links }: NavbarProps) => {
   const { toggleColorMode, colorMode } = useColorMode()
   const { t, i18n } = useTranslation("navbar")
   const [_, setOptions] = useTonConnectUI()
-  const [tabIndex, setTabIndex] = useState(
-    pathname?.includes("/farmers") ? 1 : 0 || 0
-  )
+  const [tabIndex, setTabIndex] = useState(pathname?.includes("/farmers") ? 1 : 0 || 0)
   const [opened, setOpened] = useState(false)
 
   const currentLang = i18n.language
@@ -126,15 +118,9 @@ const Navbar = ({ links }: NavbarProps) => {
       >
         <Box hideFrom={"md"}>
           {opened ? (
-            <Image
-              src={colorMode === "light" ? close : closeLight}
-              onClick={() => setOpened(false)}
-            />
+            <Image src={colorMode === "light" ? close : closeLight} onClick={() => setOpened(false)} />
           ) : (
-            <Image
-              src={colorMode === "light" ? menu : menuLight}
-              onClick={() => setOpened(true)}
-            />
+            <Image src={colorMode === "light" ? menu : menuLight} onClick={() => setOpened(true)} />
           )}
         </Box>
         <Tabs
@@ -162,21 +148,11 @@ const Navbar = ({ links }: NavbarProps) => {
               </Tab>
             ))}
           </TabList>
-          <TabIndicator
-            mt="-1.5px"
-            height="2px"
-            bg="blue.500"
-            borderRadius="1px"
-          />
+          <TabIndicator mt="-1.5px" height="2px" bg="blue.500" borderRadius="1px" />
         </Tabs>
         <Flex alignItems={"center"}>
           {!connectionRestored ? (
-            <Flex
-              w={"148px"}
-              h={"40px"}
-              alignItems={"center"}
-              justifyContent={"center"}
-            >
+            <Flex w={"148px"} h={"40px"} alignItems={"center"} justifyContent={"center"}>
               <Spinner></Spinner>
             </Flex>
           ) : (
@@ -188,13 +164,7 @@ const Navbar = ({ links }: NavbarProps) => {
             {SelectLang()}
           </Flex>
         </Flex>
-        <Drawer
-          onClose={() => setOpened(false)}
-          isOpen={opened}
-          isFullHeight={true}
-          size={"full"}
-          placement="left"
-        >
+        <Drawer onClose={() => setOpened(false)} isOpen={opened} isFullHeight={true} size={"full"} placement="left">
           <DrawerOverlay mt={"66px"} hideFrom={"md"} />
           <DrawerContent mt={"66px"} hideFrom={"md"}>
             <DrawerBody>
@@ -206,7 +176,7 @@ const Navbar = ({ links }: NavbarProps) => {
                 <Flex
                   fontSize={16}
                   fontWeight={600}
-                  key={link.path}
+                  key={link.name}
                   mb={8}
                   onClick={() => {
                     navigate(link.path)

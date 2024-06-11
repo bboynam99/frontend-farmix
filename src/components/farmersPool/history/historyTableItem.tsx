@@ -1,7 +1,7 @@
 import { Badge, Flex, Stack } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 
-import { IHistoryItem } from "./types/IHistoryItem"
+import { IHistoryItem } from "../types/IHistoryItem"
 
 interface HistoryTableItemProps {
   item: IHistoryItem

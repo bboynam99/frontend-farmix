@@ -1,7 +1,9 @@
-import { makeAutoObservable } from "mobx"
+import { makeAutoObservable, runInAction } from "mobx"
 
 import { IDex } from "@/components/farmersPool/types/IDex"
 import { RootStore } from "@/store/rootStore"
+import { farmersPositions } from "@/mocks/mockData"
+import { IPosition } from "@/components/farmersPool/types/IPosition"
 
 interface IFarmSettings {
   asset1Id: number | undefined
@@ -9,6 +11,7 @@ interface IFarmSettings {
   asset1Amount: number | undefined
   asset2Amount: number | undefined
   leverage: number
+  ableToLever: boolean
   dex: IDex | undefined
 }
 
@@ -19,10 +22,13 @@ class FarmersStore {
     asset2Id: undefined,
     asset1Amount: undefined,
     asset2Amount: undefined,
+    ableToLever: false,
     leverage: 1,
     dex: undefined
   }
   public openStatus: "confirm" | "opened" | undefined = undefined
+  public currentPool: IPosition | undefined = undefined
+
   constructor(rootStore: RootStore) {
     makeAutoObservable(this, { rootStore: false })
     this.rootStore = rootStore
@@ -48,8 +54,20 @@ class FarmersStore {
     this.settings.leverage = leverage
   }
 
+  setAbleToLever = (ableToLever: boolean) => {
+    this.settings.ableToLever = ableToLever
+  }
+
   setOpenStatus = (status: "confirm" | "opened" | undefined) => {
     this.openStatus = status
+  }
+
+  fetchPool = async (id: number) => {
+    // const response = walletAddr ? await getStakingPool(symbol, walletAddr) : await getStakingPool(symbol)
+    const response = farmersPositions
+    runInAction(() => {
+      this.currentPool = response[id]
+    })
   }
 }
 

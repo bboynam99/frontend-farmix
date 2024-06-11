@@ -1,4 +1,5 @@
 import { Box, Button, Flex, Image, Spacer, Text } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom"
 
 interface BannerProps {
   title: string
@@ -17,6 +18,9 @@ const Banner = ({
   image,
   bgImage
 }: BannerProps) => {
+
+  const navigate = useNavigate()
+
   return (
     <Flex
       p={[8, 8, 16]}
@@ -40,7 +44,7 @@ const Banner = ({
           {text}
         </Text>
         <Button
-          onClick={() => (window.location.href = buttonLink)}
+          onClick={() => navigate(buttonLink)}
           bg={"white"}
           color={"black"}
           width={["100%","auto"]}

@@ -23,7 +23,7 @@ const StakingPoolTableRow = observer(({ item }: StakingPoolTableRowProps) => {
   const { fromNano } = useStore()
 
   return (
-    <Link to={`/staking/pair/${item.descriptor.symbol}`}>
+    <Link to={`/lending/pair/${item.descriptor.symbol}`}>
       <Stack
         cursor={"pointer"}
         direction={["column", "row"]}

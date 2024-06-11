@@ -32,7 +32,7 @@ export function createDepositMessage(treasury: Address, amountInNano: bigint, re
     address,
     amount,
     stateInit,
-    payload 
+    payload
   }
 }
 
@@ -49,6 +49,27 @@ export function createUnstakeMessage(wallet: Address, amountInNano: bigint): Ton
     .endCell()
     .toBoc()
     .toString("base64")
+  return {
+    address,
+    amount,
+    stateInit,
+    payload
+  }
+}
+
+export function createLendNativeTokenMessage(wallet: Address, value: bigint): TonConnectMessage {
+  const address = wallet.toString()
+  const amount = value.toString()
+  const stateInit = undefined
+  const payload = beginCell()
+    .storeUint(0x186a1, 32)
+    .storeUint(0, 64)
+    .storeCoins(value)
+    .storeAddress(wallet)
+    .endCell()
+    .toBoc()
+    .toString("base64")
+
   return {
     address,
     amount,

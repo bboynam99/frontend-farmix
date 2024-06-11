@@ -7,7 +7,7 @@ import HistoryTableItem from "./historyTableItem"
 const HistoryTable = () => {
   return (
     <Box>
-      <Stack direction={["column", "row"]} spacing={2} px={6} py={4}>
+      <Stack direction={["column", "row"]} spacing={2} px={6} py={4} hideBelow={"md"}>
         <Flex flexBasis={"14.28%"}>
           <Text>Symbol</Text>
         </Flex>

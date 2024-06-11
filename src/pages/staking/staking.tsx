@@ -65,7 +65,7 @@ const StakingPool = observer(() => {
         <Banner
           bgImage={bannerBg}
           image={moneyBanner}
-          buttonLink="#"
+          buttonLink="/staking"
           buttonText={t("banner.buttonText")}
           title={t("banner.title")}
           text={t("banner.text")}
