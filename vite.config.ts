@@ -1,9 +1,9 @@
 import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill"
 import react from "@vitejs/plugin-react"
 import path from "path"
+import rollupNodePolyFill from "rollup-plugin-polyfill-node"
 import { defineConfig } from "vite"
 import i18nextLoader from "vite-plugin-i18next-loader"
-import rollupNodePolyFill from "rollup-plugin-polyfill-node"
 
 // https://vitejs.dev/config/
 export default defineConfig({
