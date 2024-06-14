@@ -2,12 +2,8 @@ import "./index.scss"
 
 import { Buffer } from 'buffer';
 import process from 'process';
-
-if (typeof window !== 'undefined') {
-  window.Buffer = Buffer;
-  window.process = process;
-}
-
+window.Buffer = Buffer;
+window.process = process;
 import { ChakraProvider } from "@chakra-ui/react"
 import { TonConnectUIProvider } from "@tonconnect/ui-react"
 import ReactDOM from "react-dom/client"
@@ -29,6 +25,7 @@ import theme from "./theme/theme.ts"
 i18n.init({
   resources: resources,
   fallbackLng: "en",
+  lng: "en",
   interpolation: {
     escapeValue: false
   }

@@ -14,23 +14,21 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
-  Text} from "@chakra-ui/react"
+  Text
+} from "@chakra-ui/react"
 import { useTranslation } from "react-i18next"
 
-import { useInput } from "@/hooks/useInput"
 import { useStore } from "@/hooks/useStore"
 
 interface UnstakeModalProps {
   isOpen: boolean
   onClose: () => void
-  onConfirm: (value: number) => void
+  onConfirm: () => void
 }
 
 const UnstakeModal = ({ isOpen, onClose, onConfirm }: UnstakeModalProps) => {
   const { stakingStore: store } = useStore()
-  const amountInput = useInput(0)
   const { t } = useTranslation("stakingPool")
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered size={"sm"}>
       <ModalOverlay />
@@ -48,35 +46,27 @@ const UnstakeModal = ({ isOpen, onClose, onConfirm }: UnstakeModalProps) => {
                 <Flex align={"flex-start"}>
                   <Flex align={"center"}>
                     {store.currentPool.descriptor.imgUrl && (
-                      <Image
-                        mr={3}
-                        src={store.currentPool.descriptor.imgUrl}
-                        w={8}
-                        h={8}
-                      />
+                      <Image mr={3} src={store.currentPool.descriptor.imgUrl} w={8} h={8} />
                     )}
                     <Box>
                       <Text color={"text.secondary"} fontSize={12}>
                         {t("table.staked")}
                       </Text>
                       <Text fontWeight={500}>
-                        {store.currentPool.staker?.currentDeposits}{" "}
-                        {store.currentPool.descriptor.symbol}
+                        {store.currentPool.staker?.currentDeposits} {store.currentPool.descriptor.symbol}
                       </Text>
                     </Box>
                   </Flex>
                 </Flex>
               </Box>
               <InputGroup>
-                <Input placeholder={"Enter amount"} {...amountInput}></Input>
+                <Input
+                  placeholder={"Enter amount"}
+                  onChange={(e) => store.setUnstakeAmount(Number(e.target.value))}
+                  value={store.unstakeAmount}
+                ></Input>
                 <InputRightElement w={"auto"}>
-                  <Text
-                    color={"text.link"}
-                    fontSize={"12px"}
-                    cursor={"pointer"}
-                    px={5}
-                    fontWeight={500}
-                  >
+                  <Text color={"text.link"} fontSize={"12px"} cursor={"pointer"} px={5} fontWeight={500}>
                     {/* TODO calc max including commissions */}
                     MAX
                   </Text>
@@ -89,11 +79,7 @@ const UnstakeModal = ({ isOpen, onClose, onConfirm }: UnstakeModalProps) => {
                 </Text>
                 <Text fontSize={12}>0.08-0.8 TON</Text>
               </Flex>
-              <Button
-                mt={4}
-                variant={"big"}
-                onClick={() => onConfirm(+amountInput.value)}
-              >
+              <Button mt={4} variant={"big"} onClick={onConfirm}>
                 {t("table.confirmUnstake")}
               </Button>
             </Box>

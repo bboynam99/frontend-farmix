@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react"
 import { useTonConnectUI } from "@tonconnect/ui-react"
 import { observer } from "mobx-react-lite"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { useNavigate, useParams } from "react-router-dom"
 
@@ -25,12 +25,13 @@ import ToUsd from "@/components/ui/toUsd/toUsd"
 import ViewOnTonviewer from "@/components/ui/viewOnTonviewer/viewOnTonviewer"
 import { useStore } from "@/hooks/useStore"
 
+import ConfirmWalletModal from "../stake/modals/confirmWallet"
+import ResultModal from "../stake/modals/resultModal"
 import UnstakeModal from "./modals/unstake"
 
 const Pair = observer(() => {
   const params = useParams()
   const nav = useNavigate()
-  const [unstakeModal, setUnstakeModal] = useState(false)
   const { stakingStore, userStore, fromNano } = useStore()
   const store = stakingStore
   const { t } = useTranslation("stakingPool")
@@ -43,16 +44,12 @@ const Pair = observer(() => {
       store.currentPool.descriptor.id &&
       nav(`/lending/pair/${store.currentPool.descriptor.symbol}/stake`)
   }
-  const unstake = (value: number) => {
-    console.log(value) /* TODO UNSTAKE */
-    setUnstakeModal(false)
-  }
 
   useEffect(() => {
     if (params.id) {
       store.fetchPool(params.id, userStore.user.walletAddress)
     }
-  }, [userStore.user.walletAddress, params.id])
+  }, [userStore.user.walletAddress, params.id, stakingStore.currentPool])
 
   return (
     <Container maxW={"container.xl"}>
@@ -161,7 +158,7 @@ const Pair = observer(() => {
                     </Text>
                   </Flex>
                   <Flex mt={6}>
-                    <Button onClick={() => setUnstakeModal(true)} mr={4} variant={"outline"}>
+                    <Button onClick={() => store.setStakeState("withdraw")} mr={4} variant={"outline"}>
                       {t("table.unstake")}
                     </Button>
                     <Button onClick={stake}>{t("table.add")}</Button>
@@ -178,11 +175,29 @@ const Pair = observer(() => {
                     </Text>
                   </Flex>
                   <Flex mt={6}>
-                    <Button onClick={() => setUnstakeModal(true)}>{t("table.claimAndUnstake")}</Button>
+                    <Button onClick={() => store.setStakeState("withdraw")}>{t("table.claimAndUnstake")}</Button>
                   </Flex>
                 </Stat>
               </Flex>
-              <UnstakeModal isOpen={unstakeModal} onClose={() => setUnstakeModal(false)} onConfirm={unstake} />
+              <UnstakeModal
+                isOpen={store.stakeState === "withdraw"}
+                onClose={() => store.clearStake()}
+                onConfirm={() => store.confirmWithdraw(true, tonConnectUI)}
+              />
+              <ConfirmWalletModal
+                isOpen={store.stakeState === "confirmInWallet" || store.stakeState === "pending"}
+                item={store.currentPool}
+                amount={store.settings.stakeAmount || 0}
+                confirmed={store.stakeState === "pending"}
+                onClose={() => store.clearStake()}
+              />
+              <ResultModal
+                item={store.currentPool}
+                amount={store.settings.stakeAmount || 0}
+                result={store.stakeState as "success" | "error"}
+                isOpen={store.stakeState === "success" || store.stakeState === "error"}
+                onClose={() => store.clearStake()}
+              />
             </>
           )}
         </>

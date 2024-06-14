@@ -51,7 +51,6 @@ const App = observer(() => {
           return { name: r.id, path: r.path } as NavbarLink
         })}
       ></Navbar>
-      {/* <button onClick={()=>lendNativeToken()}>send</button> */}
       <ErrorBoundary
         fallback={
           <Flex w={"100%"} height={"100%"} minH={"240px"} justify={"center"} alignItems={"center"}>

@@ -4,4 +4,5 @@ export type StakeState =
   | "pending"
   | "success"
   | "error"
+  | "withdraw"
   | undefined

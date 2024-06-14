@@ -5,7 +5,7 @@ import { makeAutoObservable, runInAction } from "mobx"
 import { getStakingPool } from "@/api/staking/getStakingPool"
 import { IStakingPool } from "@/components/stakingPool/types/IStakingPool"
 import { RootStore } from "@/store/rootStore"
-import { createLendNativeTokenMessage } from "@/utils/createTonconnectMessage"
+import { createLendNativeTokenMessage, createWithdrawMessage } from "@/utils/createTonconnectMessage"
 
 import { StakeState } from "./types/stakeState"
 
@@ -25,6 +25,7 @@ class StakingStore {
     stakeTokenId: undefined,
     stakeError: undefined
   }
+  public unstakeAmount: number | undefined = undefined
   public stakeState: StakeState = undefined
   public resultAlertMessage: string | undefined = undefined
   public currentPool: IStakingPool | undefined = undefined
@@ -55,6 +56,10 @@ class StakingStore {
     }
   }
 
+  setUnstakeAmount = (amount: number) => {
+    this.unstakeAmount = amount
+  }
+
   setStakeTokenId = (tokenId: number) => {
     this.settings.stakeTokenId = tokenId
   }
@@ -63,6 +68,18 @@ class StakingStore {
     if (confirmed && tonConnectUI) {
       this.setStakeState("confirmInWallet")
       this.lendNativeToken(tonConnectUI)
+        .then((res) => {
+          res ? this.setStakeState("success") : this.setStakeState("error")
+        })
+        .catch(() => this.setStakeState("error"))
+    } else {
+      this.setStakeState(undefined)
+    }
+  }
+
+  confirmWithdraw = (confirmed: boolean, tonConnectUI?: TonConnectUI) => {
+    if (confirmed && tonConnectUI) {
+      this.withdrawNativeToken(tonConnectUI)
         .then((res) => {
           res ? this.setStakeState("success") : this.setStakeState("error")
         })
@@ -94,6 +111,28 @@ class StakingStore {
         Address.parse("kQBCL8NLgieN-9ySFDB1_0038tsW-cxOOseIFTXanYbvZY4H"),
         toNano(this.settings.stakeAmount)
       )
+      const tx: SendTransactionRequest = {
+        validUntil: Math.floor(Date.now() / 1000) + txValidUntil,
+        network: CHAIN.TESTNET,
+        from: Address.parse(this.rootStore.userStore.user.walletAddress).toRawString(),
+        messages: [message]
+      }
+      return tonConnectUI.sendTransaction(tx).then((res) => (res ? true : false))
+    }
+  }
+
+  withdrawNativeToken = async (tonConnectUI: TonConnectUI) => {
+    if (
+      this.currentPool !== undefined &&
+      this.rootStore.userStore.user.walletAddress !== undefined &&
+      this.unstakeAmount !== undefined
+    ) {
+      
+      const message = createWithdrawMessage(
+        // Address.parse(this.currentPool?.descriptor.contractAddr),
+        Address.parse("kQBCL8NLgieN-9ySFDB1_0038tsW-cxOOseIFTXanYbvZY4H"),
+        toNano(this.unstakeAmount)
+        )
       const tx: SendTransactionRequest = {
         validUntil: Math.floor(Date.now() / 1000) + txValidUntil,
         network: CHAIN.TESTNET,

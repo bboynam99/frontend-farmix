@@ -60,7 +60,6 @@ const Navbar = ({ links }: NavbarProps) => {
   const [opened, setOpened] = useState(false)
 
   const currentLang = i18n.language
-
   setOptions({
     uiPreferences: {
       borderRadius: "m",
