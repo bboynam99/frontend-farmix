@@ -1,8 +1,9 @@
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import react from "@vitejs/plugin-react";
-import path from "path";
-import { defineConfig } from "vite";
-import i18nextLoader from "vite-plugin-i18next-loader";
+import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill"
+import react from "@vitejs/plugin-react"
+import path from "path"
+import { defineConfig } from "vite"
+import i18nextLoader from "vite-plugin-i18next-loader"
+import rollupNodePolyFill from "rollup-plugin-polyfill-node"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,23 +11,26 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       "@assets": path.resolve(__dirname, "./src/assets"),
-      "@components": path.resolve(__dirname, "./src/components"),
-    },
+      "@components": path.resolve(__dirname, "./src/components")
+    }
   },
-  plugins: [
-    react(),
-    i18nextLoader({ paths: ['./src/locales'] }),
-  ],
+  plugins: [react(), i18nextLoader({ paths: ["./src/locales"] })],
   optimizeDeps: {
-      esbuildOptions: {
-          define: {
-              global: 'globalThis'
-          },
-          plugins: [
-              NodeGlobalsPolyfillPlugin({
-                  buffer: true
-              })
-          ]
-      }
+    esbuildOptions: {
+      define: {
+        global: "globalThis"
+      },
+      plugins: [
+        NodeGlobalsPolyfillPlugin({
+          buffer: true,
+          process: true
+        })
+      ]
+    }
+  },
+  build: {
+    rollupOptions: {
+      plugins: [rollupNodePolyFill()]
+    }
   }
-});
+})

@@ -1,5 +1,13 @@
 import "./index.scss"
 
+import { Buffer } from 'buffer';
+import process from 'process';
+
+if (typeof window !== 'undefined') {
+  window.Buffer = Buffer;
+  window.process = process;
+}
+
 import { ChakraProvider } from "@chakra-ui/react"
 import { TonConnectUIProvider } from "@tonconnect/ui-react"
 import ReactDOM from "react-dom/client"

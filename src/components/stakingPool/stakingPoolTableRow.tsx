@@ -61,7 +61,7 @@ const StakingPoolTableRow = observer(({ item }: StakingPoolTableRowProps) => {
           {item.currentDerivs && (
             <ToUsd
               symbol={"TON"}
-              value={Number(fromNano(item.currentDerivs?.tvl))}
+              value={Number(fromNano(item.currentDerivs.tvl))}
             />
           )}
         </StakingPoolTableCell>
@@ -70,7 +70,7 @@ const StakingPoolTableRow = observer(({ item }: StakingPoolTableRowProps) => {
           {item.staker.totalEarnings && (
             <ToUsd
               symbol={"TON"}
-              value={Number(fromNano(item.staker?.totalEarnings))}
+              value={Number(fromNano(item.staker.totalEarnings))}
             />
           )}
         </StakingPoolTableCell>
@@ -79,7 +79,7 @@ const StakingPoolTableRow = observer(({ item }: StakingPoolTableRowProps) => {
           {item.staker.currentDeposits && (
             <ToUsd
               symbol={"TON"}
-              value={Number(fromNano(item.staker?.currentDeposits))}
+              value={Number(fromNano(item.staker.currentDeposits))}
             />
           )}
         </StakingPoolTableCell>
