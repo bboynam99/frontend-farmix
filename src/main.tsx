@@ -10,13 +10,13 @@ import App from "./App.tsx"
 import i18n from "./i18n.ts"
 import Farmers from "./pages/farmers/farmers.tsx"
 import FarmersPool from "./pages/farmers/pool/pool.tsx"
+import FarmersPair from "./pages/farmers/position/position.tsx"
 import Pair from "./pages/staking/pool/pool.tsx"
 import Stake from "./pages/staking/stake/stake.tsx"
 import StakingPool from "./pages/staking/staking.tsx"
 import rootStore from "./store/rootStore.ts"
 import { RootStoreContext } from "./store/rootStoreContext.tsx"
 import theme from "./theme/theme.ts"
-import FarmersPair from "./pages/farmers/position/position.tsx"
 
 i18n.init({
   resources: resources,

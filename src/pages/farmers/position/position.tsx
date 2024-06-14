@@ -1,3 +1,5 @@
+import dedustImg from "@assets/png/dedust.io.png"
+import stonfiImg from "@assets/png/ston.fi.png"
 import {
   Badge,
   Box,
@@ -20,13 +22,13 @@ import { observer } from "mobx-react-lite"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useNavigate, useParams } from "react-router-dom"
+
 import BackButton from "@/components/ui/backButton/backButton"
 import ToUsd from "@/components/ui/toUsd/toUsd"
 import { useStore } from "@/hooks/useStore"
-import dedustImg from "@assets/png/dedust.io.png"
-import stonfiImg from "@assets/png/ston.fi.png"
-import UnstakeModal from "./modals/unstake"
+
 import AddModal from "./modals/add"
+import UnstakeModal from "./modals/unstake"
 
 const FarmersPair = observer(() => {
   const params = useParams()

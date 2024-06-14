@@ -1,4 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react"
+import { Address, beginCell, fromNano } from "@ton/core"
+import { JettonMaster,TonClient } from "@ton/ton"
 import { useTonWallet } from "@tonconnect/ui-react"
 import { observer } from "mobx-react-lite"
 import { useEffect } from "react"
@@ -8,8 +10,6 @@ import { Outlet } from "react-router-dom"
 import Footer from "./components/footer/footer"
 import Navbar, { NavbarLink } from "./components/ui/navbar/navbar"
 import { useStore } from "./hooks/useStore"
-import { Address, beginCell, fromNano } from "@ton/core"
-import { TonClient, JettonMaster } from "@ton/ton"
 
 const client = new TonClient({
     endpoint: 'https://toncenter.com/api/v2/jsonRPC',

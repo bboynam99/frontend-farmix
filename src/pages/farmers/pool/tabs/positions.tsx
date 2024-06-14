@@ -1,7 +1,7 @@
 import { Flex, Text } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 
 import PositionsTable from "@/components/farmersPool/positions/positionsTable"
-import { useTranslation } from "react-i18next"
 
 const Positions = () => {
   const { t } = useTranslation("positions")

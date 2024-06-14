@@ -1,7 +1,7 @@
 import { Box, Flex, Stack, Text } from "@chakra-ui/react"
 
-import FarmersPoolTableRow from "./farmersPoolTableRow"
 import { IFarmersPoolRow } from "../types/IFarmersPoolRow"
+import FarmersPoolTableRow from "./farmersPoolTableRow"
 
 interface FarmersPoolTableProps {
   list: IFarmersPoolRow[]

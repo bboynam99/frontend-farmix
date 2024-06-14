@@ -1,8 +1,6 @@
-import { useInput } from "@/hooks/useInput"
-import { useStore } from "@/hooks/useStore"
-import walletIcon from "@assets/svg/wallet_16.svg"
 import plusIconDark from "@assets/svg/plus-outline_32.svg"
 import plusIconLight from "@assets/svg/plus-outline_light_32.svg"
+import walletIcon from "@assets/svg/wallet_16.svg"
 import {
   Button,
   Divider,
@@ -23,6 +21,9 @@ import {
 } from "@chakra-ui/react"
 import { fromNano } from "@ton/core"
 import { useTranslation } from "react-i18next"
+
+import { useInput } from "@/hooks/useInput"
+import { useStore } from "@/hooks/useStore"
 
 interface AddModalProps {
   isOpen: boolean

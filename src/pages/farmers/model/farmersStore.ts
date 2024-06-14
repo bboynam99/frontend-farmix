@@ -1,9 +1,9 @@
 import { makeAutoObservable, runInAction } from "mobx"
 
 import { IDex } from "@/components/farmersPool/types/IDex"
-import { RootStore } from "@/store/rootStore"
-import { farmersPositions } from "@/mocks/mockData"
 import { IPosition } from "@/components/farmersPool/types/IPosition"
+import { farmersPositions } from "@/mocks/mockData"
+import { RootStore } from "@/store/rootStore"
 
 interface IFarmSettings {
   asset1Id: number | undefined

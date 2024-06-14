@@ -1,10 +1,10 @@
+import dedustImg from "@assets/png/dedust.io.png"
+import stonfiImg from "@assets/png/ston.fi.png"
 import { Box, Divider, Flex, Image, Stack } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 
-import FarmersPoolTableCell from "./farmersPoolTableCell"
 import { IFarmersPoolRow } from "../types/IFarmersPoolRow"
-import stonfiImg from "@assets/png/ston.fi.png"
-import dedustImg from "@assets/png/dedust.io.png"
+import FarmersPoolTableCell from "./farmersPoolTableCell"
 
 interface FarmersPoolTableRowProps {
   item: IFarmersPoolRow

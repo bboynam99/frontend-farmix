@@ -1,10 +1,10 @@
+import dedustImg from "@assets/png/dedust.io.png"
+import stonfiImg from "@assets/png/ston.fi.png"
 import { Button, Flex, Image, Stack } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 import { Link, useParams } from "react-router-dom"
 
 import { IPosition } from "../types/IPosition"
-import { useTranslation } from "react-i18next"
-import stonfiImg from "@assets/png/ston.fi.png"
-import dedustImg from "@assets/png/dedust.io.png"
 
 interface PositionsTableItemProps {
   item: IPosition

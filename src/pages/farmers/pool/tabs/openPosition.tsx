@@ -24,13 +24,15 @@ import {
   useColorModeValue
 } from "@chakra-ui/react"
 import { observer } from "mobx-react-lite"
+import { useTranslation } from "react-i18next"
+
+import PoolSelect from "@/components/farmersPool/poolSelect/poolSelect"
 import { IFarmersPoolRow } from "@/components/farmersPool/types/IFarmersPoolRow"
 import BgBox from "@/components/ui/bgBox/bgBox"
 // import SelectUi from "@/components/ui/select/selectUi"
 import { useStore } from "@/hooks/useStore"
-import PoolSelect from "@/components/farmersPool/poolSelect/poolSelect"
+
 import ConfirmModal from "../modals/confirm"
-import { useTranslation } from "react-i18next"
 
 const OpenPosition = observer(({ item }: { item: IFarmersPoolRow | undefined }) => {
   const settingsIcon = useColorModeValue(settingsIconDark, settingsIconLight)
@@ -48,9 +50,9 @@ const OpenPosition = observer(({ item }: { item: IFarmersPoolRow | undefined }) 
             {t("position")}
           </Text>
           <Flex>
-            <Box mr={5} onClick={() => {}} cursor={"pointer"}>
+            {/* <Box mr={5} onClick={() => {}} cursor={"pointer"}>
               <Image src={settingsIcon} w={8} h={8} />
-            </Box>
+            </Box> */}
             <Box cursor={"pointer"} onClick={() => {}}>
               <Image src={refreshIcon} w={8} h={8} />
             </Box>

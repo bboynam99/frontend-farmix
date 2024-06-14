@@ -1,8 +1,10 @@
+import { Box, Flex, Image } from "@chakra-ui/react"
 import { ChakraStylesConfig, GroupBase, Props, Select, SelectInstance } from "chakra-react-select"
 import { forwardRef, useEffect, useState } from "react"
-import { IFarmersPoolRow } from "../types/IFarmersPoolRow"
+
 import { farmersPools } from "@/mocks/mockData"
-import { Box, Flex, Image } from "@chakra-ui/react"
+
+import { IFarmersPoolRow } from "../types/IFarmersPoolRow"
 
 const PoolSelect = forwardRef<SelectInstance<unknown, boolean, GroupBase<unknown>>, Props>((props, ref) => {
   const [pools, setPools] = useState<
