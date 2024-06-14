@@ -5,7 +5,7 @@ import { makeAutoObservable, runInAction } from "mobx"
 import { getStakingPool } from "@/api/staking/getStakingPool"
 import { IStakingPool } from "@/components/stakingPool/types/IStakingPool"
 import { RootStore } from "@/store/rootStore"
-import { createDepositMessage, createLendNativeTokenMessage } from "@/utils/createTonconnectMessage"
+import { createLendNativeTokenMessage } from "@/utils/createTonconnectMessage"
 
 import { StakeState } from "./types/stakeState"
 

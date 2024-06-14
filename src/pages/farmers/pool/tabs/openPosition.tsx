@@ -2,8 +2,8 @@ import plusIconDark from "@assets/svg/plus-outline_32.svg"
 import plusIconLight from "@assets/svg/plus-outline_light_32.svg"
 import refreshIconDark from "@assets/svg/refresh_32.svg"
 import refreshIconLight from "@assets/svg/refresh_32_light.svg"
-import settingsIconDark from "@assets/svg/settings_32.svg"
-import settingsIconLight from "@assets/svg/settings_32_light.svg"
+// import settingsIconDark from "@assets/svg/settings_32.svg"
+// import settingsIconLight from "@assets/svg/settings_32_light.svg"
 import walletIcon from "@assets/svg/wallet_16.svg"
 import {
   Badge,
@@ -35,7 +35,7 @@ import { useStore } from "@/hooks/useStore"
 import ConfirmModal from "../modals/confirm"
 
 const OpenPosition = observer(({ item }: { item: IFarmersPoolRow | undefined }) => {
-  const settingsIcon = useColorModeValue(settingsIconDark, settingsIconLight)
+  // const settingsIcon = useColorModeValue(settingsIconDark, settingsIconLight)
   const refreshIcon = useColorModeValue(refreshIconDark, refreshIconLight)
   const plusIcon = useColorModeValue(plusIconDark, plusIconLight)
   const { farmersStore: store, userStore, fromNano } = useStore()

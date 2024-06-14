@@ -6,7 +6,6 @@ export const getStakingPool = async (
   symbol: string,
   walletAddr?: string
 ): Promise<IStakingPool | undefined> => {
-  const corsAnywhereProxyUrl = "https://cors-anywhere.herokuapp.com/"
   try {
     const response = await axios.get(
       // corsAnywhereProxyUrl +

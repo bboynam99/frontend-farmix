@@ -69,6 +69,27 @@ class FarmersStore {
       this.currentPool = response[id]
     })
   }
+  
+  // borrowNativeToken = async (tonConnectUI: TonConnectUI) => {
+  //   if (
+  //     this.currentPool !== undefined &&
+  //     this.rootStore.userStore.user.walletAddress !== undefined &&
+  //     this.settings.stakeAmount !== undefined
+  //   ) {
+  //     const message = createLendNativeTokenMessage(
+  //       // Address.parse(this.currentPool?.descriptor.contractAddr),
+  //       Address.parse("kQBCL8NLgieN-9ySFDB1_0038tsW-cxOOseIFTXanYbvZY4H"),
+  //       toNano(this.settings.stakeAmount)
+  //     )
+  //     const tx: SendTransactionRequest = {
+  //       validUntil: Math.floor(Date.now() / 1000) + txValidUntil,
+  //       network: CHAIN.TESTNET,
+  //       from: Address.parse(this.rootStore.userStore.user.walletAddress).toRawString(),
+  //       messages: [message]
+  //     }
+  //     return tonConnectUI.sendTransaction(tx).then((res) => (res ? true : false))
+  //   }
+  // }
 }
 
 export default FarmersStore

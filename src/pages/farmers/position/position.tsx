@@ -20,8 +20,7 @@ import {
 import { useTonConnectUI } from "@tonconnect/ui-react"
 import { observer } from "mobx-react-lite"
 import { useEffect, useState } from "react"
-import { useTranslation } from "react-i18next"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 import BackButton from "@/components/ui/backButton/backButton"
 import ToUsd from "@/components/ui/toUsd/toUsd"
@@ -32,12 +31,11 @@ import UnstakeModal from "./modals/unstake"
 
 const FarmersPair = observer(() => {
   const params = useParams()
-  const nav = useNavigate()
   const [unstakeModal, setUnstakeModal] = useState(false)
   const [addModal, setAddModal] = useState(false)
-  const { farmersStore, fromNano } = useStore()
+  const { farmersStore } = useStore()
   const store = farmersStore
-  const { t } = useTranslation("stakingPool")
+  // const { t } = useTranslation("stakingPool")
   const [tonConnectUI] = useTonConnectUI()
 
   tonConnectUI.account?.address

@@ -1,7 +1,6 @@
 import axios from "axios"
 
 export const getStakingPools = async (sort?: string, q?: string | number) => {
-  const corsAnywhereProxyUrl = "https://cors-anywhere.herokuapp.com/"
   try {
     const response = await axios.get(
       // corsAnywhereProxyUrl +

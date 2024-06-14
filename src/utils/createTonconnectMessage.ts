@@ -77,3 +77,24 @@ export function createLendNativeTokenMessage(wallet: Address, value: bigint): To
     payload
   }
 }
+
+export function createNewBorrowMessage(wallet: Address, amountInNano: bigint): TonConnectMessage {
+  const address = wallet.toString()
+  const amount = amountInNano.toString()
+  const stateInit = undefined
+  const payload = beginCell()
+    .storeUint(0x186a0, 32)
+    .storeUint(0, 64)
+    .storeCoins(amountInNano)
+    .storeAddress(wallet)
+    .storeMaybeRef(beginCell().storeUint(0, 4).storeCoins(1n))
+    .endCell()
+    .toBoc()
+    .toString("base64")
+  return {
+    address,
+    amount,
+    stateInit,
+    payload
+  }
+}

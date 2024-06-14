@@ -5,7 +5,6 @@ import { IRates } from "@/types/rates"
 export const getRates = async (
   symbol: string
 ): Promise<IRates | undefined> => {
-  const corsAnywhereProxyUrl = "https://cors-anywhere.herokuapp.com/"
   try {
     const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/rates?tokens=${symbol}`

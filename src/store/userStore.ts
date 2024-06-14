@@ -28,9 +28,9 @@ class UserStore {
     this.user.balance = balances["FARM"]
   }
 
-  getTokenBalance = (symbol: string) => {
+  // getTokenBalance = (symbol: string) => {
     
-  }
+  // }
 }
 
 export default UserStore
